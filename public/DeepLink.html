@@ -1,33 +1,10 @@
-<!DOCTYPE html>
 <html>
-<head>
-    <title>Open Game</title>
-    <script type="text/javascript">
-        function openApp() {
-            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-            if (/android/i.test(userAgent)) {
-                // Open app on Android
-                window.location = "GameName://open";
-                setTimeout(function() {
-                    window.location = "https://play.google.com/store/apps/details?id=com.sakher.hajwalachases";
-                }, 2000);  // Increased the timeout to 2000ms
-            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                // Open app on iOS
-                window.location = "GameName://open";
-                setTimeout(function() {
-                    window.location = "https://apps.apple.com/app/id123456789";
-                }, 2000);  // Increased the timeout to 2000ms
-            } else {
-                // Redirect to a page for unsupported devices
-                alert("Unsupported device.");
-            }
-        }
-    </script>
-</head>
-<body>
-    <h1>2</h1>
-    <br>
-    <button onclick="openApp()">Open My Game</button>
-</body>
+    <head>
+       <meta charset="utf-8">
+    </head>
+    <body >
+       <h1>My Deep Link Test page</h1>
+       <p><a href="gamename://open">Launch</a></p>
+       <p><a href="gamename://open?message">Launch with Message</a></p>
+    </body>
 </html>
