@@ -20,7 +20,7 @@
 
         function tryOpenUnityGame() {
             const message = getParameterByName('message');
-            const unityDeepLink = `your-unity-game://open?message=${encodeURIComponent(message)}`;
+            const unityDeepLink = `gamename://open?message=${encodeURIComponent(message)}`;
             
             // Try to open the Unity game using the deep link
             window.location.href = unityDeepLink;
