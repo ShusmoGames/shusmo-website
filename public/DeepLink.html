@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Open Game</title>
+    <script type="text/javascript">
+        function openApp() {
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (/android/i.test(userAgent)) {
+                // Open app on Android
+                window.location = "GameName://open";
+                setTimeout(function() {
+                    window.location = "https://play.google.com/store/apps/details?id=com.sakher.hajwalachases";
+                }, 25);
+            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                // Open app on iOS
+                window.location = "GameName://open";
+                setTimeout(function() {
+                    window.location = "https://shusmo.io";
+                }, 25);
+            } else {
+                // Redirect to a page for unsupported devices
+                alert("Unsupported device.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <button onclick="openApp()">Open My Game</button>
+</body>
+</html>
