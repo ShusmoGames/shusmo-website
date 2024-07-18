@@ -11,13 +11,6 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
-        function displayParameter() {
-            const param = getParameterByName('message');
-            if (param) {
-                document.getElementById('paramDisplay').textContent = param;
-            }
-        }
-
         function tryOpenUnityGame() {
             const message = getParameterByName('message');
             if (message) {
@@ -25,9 +18,6 @@
                 
                 // Try to open the Unity game using the deep link
                 window.location.href = unityDeepLink;
-                
-                // Set a timer to display the message on the page if the deep link fails
-                setTimeout(displayParameter, 500);
             }
         }
     </script>
