@@ -11,13 +11,13 @@
                 window.location = "GameName://open";
                 setTimeout(function() {
                     window.location = "https://play.google.com/store/apps/details?id=com.example.myapp";
-                }, 1500);  // Increased the timeout to 1500ms
+                }, 2000);  // Increased the timeout to 2000ms
             } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
                 // Open app on iOS
                 window.location = "GameName://open";
                 setTimeout(function() {
                     window.location = "https://apps.apple.com/app/id123456789";
-                }, 1500);  // Increased the timeout to 1500ms
+                }, 2000);  // Increased the timeout to 2000ms
             } else {
                 // Redirect to a page for unsupported devices
                 alert("Unsupported device.");
