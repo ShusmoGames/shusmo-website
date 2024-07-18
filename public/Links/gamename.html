@@ -1,0 +1,42 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            let results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        function displayParameter() {
+            const param = getParameterByName('message');
+            if (param) {
+                document.getElementById('paramDisplay').textContent = param;
+            }
+        }
+
+        function tryOpenUnityGame() {
+            const message = getParameterByName('message');
+            const unityDeepLink = `your-unity-game://open?message=${encodeURIComponent(message)}`;
+            
+            // Try to open the Unity game using the deep link
+            window.location.href = unityDeepLink;
+            
+            // Set a timer to display the message on the page if the deep link fails
+            setTimeout(displayParameter, 2000);
+        }
+    </script>
+</head>
+<body onload="tryOpenUnityGame()">
+    <h1>I`m landing page</h1>
+    <h2 style="color:red;">( SERIOUSLY )</h2>
+
+    <a href="#"><button>Android</button></a>
+    <a href="#"><button>IOS</button></a>
+
+    <p id="paramDisplay"></p>
+</body>
+</html>
