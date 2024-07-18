@@ -20,19 +20,21 @@
 
         function tryOpenUnityGame() {
             const message = getParameterByName('message');
-            const unityDeepLink = `gamename://open?message=${encodeURIComponent(message)}`;
-            
-            // Try to open the Unity game using the deep link
-            window.location.href = unityDeepLink;
-            
-            // Set a timer to display the message on the page if the deep link fails
-            setTimeout(displayParameter, 2000);
+            if (message) {
+                const unityDeepLink = `gamename://open?message=${encodeURIComponent(message)}`;
+                
+                // Try to open the Unity game using the deep link
+                window.location.href = unityDeepLink;
+                
+                // Set a timer to display the message on the page if the deep link fails
+                setTimeout(displayParameter, 500);
+            }
         }
     </script>
 </head>
 <body onload="tryOpenUnityGame()">
     <h1>I`m landing page</h1>
-    <h2 style="color:red;">(SERIOUSLY)</h2>
+    <h2 style="color:red;">( SERIOUSLY )</h2>
 
     <a href="#"><button>Android</button></a>
     <a href="#"><button>IOS</button></a>
