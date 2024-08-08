@@ -1,7 +1,7 @@
 {
     "packages": [
-         { "name": "QR", "version": "1.0.7", "url": "https://github.com/ShusmoGames/QR-Code.git" }.
-         { "name": "Deep Links", "version": "1.0.2", "url": "https://github.com/ShusmoGames/DeepLinks.git" }.
+         { "name": "QR", "version": "1.0.7", "url": "https://github.com/ShusmoGames/QR-Code.git" },
+         { "name": "Deep Links", "version": "1.0.2", "url": "https://github.com/ShusmoGames/DeepLinks.git" },
          { "name": "Social Sharing", "version": "1.0.4", "url": "https://github.com/ShusmoGames/SocialSharing.git" }
     ]
 }
