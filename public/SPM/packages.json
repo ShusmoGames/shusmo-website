@@ -1,0 +1,7 @@
+{
+    "packages": [
+        { "name": "com.example.package1", "version": "1.0.0", "status": "Unknown" },
+        { "name": "com.example.package2", "version": "1.0.0", "status": "Unknown" },
+        { "name": "com.example.package3", "version": "1.0.0", "status": "Unknown" }
+    ]
+}
