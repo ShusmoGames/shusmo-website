@@ -1,5 +1,5 @@
 {
     "packages": [
-        { "name": "com.shusmo.qr", "version": "1.0.3", "status": "Unknown" }
+         { "name": "com.shusmo.qr", "version": "1.0.3", "url": "https://github.com/ShusmoGames/QR-Code.git" }
     ]
 }
