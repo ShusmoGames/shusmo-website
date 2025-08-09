@@ -1,76 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Games - Shusmo Games</title>
-    <link href="Images/Logo Icon.png" rel="shortcut icon">
-    <link rel="stylesheet" href="style.css">
-    <script src="components/components.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Games | Shusmo Games</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fafafa;
+      color: #333;
+    }
+    header {
+      background: #1e1e2f;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .game-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .game-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    .game-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .game-card-content {
+      padding: 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .game-card-content h2 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+    .game-card-content p {
+      flex: 1;
+      margin: 0 0 0.75rem;
+      line-height: 1.4;
+    }
+    .game-card-content a {
+      text-decoration: none;
+      background: #0070f3;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      align-self: flex-start;
+    }
+    .game-card-content a:hover {
+      background: #005bb5;
+    }
+  </style>
 </head>
-
 <body>
-    <!-- Header -->
-    <div id="header-placeholder"></div>
+  <header>
+    <h1>Our Games</h1>
+  </header>
+  <main>
+    <div id="games-container" class="games-grid"></div>
+  </main>
+  <script>
+    async function loadGames() {
+      try {
+        const response = await fetch('games.json');
+        if (!response.ok) {
+          throw new Error('Could not load games data');
+        }
+        const data = await response.json();
+        const games = data.games || [];
+        const container = document.getElementById('games-container');
+        games.forEach(game => {
+          const card = document.createElement('div');
+          card.className = 'game-card';
 
-    <!-- Games Section -->
-    <section class="games" id="games">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our Games</h2>
-                <p>Discover our portfolio of mobile games that have captivated players.</p>
-            </div>
-            <div class="games-grid">
-                <div class="game-card">
-                    <div class="game-image">
-                        <img src="Images/Games/Baby Seat.png" alt="Baby Seat">
-                    </div>
-                    <div class="game-content">
-                        <h3>Baby Seat</h3>
-                        <p>This isn't just another racing game—it's a platform for players to create, share, and
-                            experience innovative driving mechanics like never before.</p>
-                        <div class="game-tags">
-                            <span class="tag">Racing</span>
-                            <span class="tag">Arcade</span>
-                            <span class="tag">3D</span>
-                            <span class="tag">AAA</span>
-                        </div>
-                        <div class="download-buttons">
-                            <a href="https://play.google.com/store/apps/details?id=io.shusmo.realhajwala"
-                                class="download-btn google-play" target="_blank">
-                                <i class="fab fa-google-play"></i> Google Play
-                            </a>
-                            <a href="https://apps.apple.com/sa/app/baby-seat-driving-sim/id6590630336?uo=2"
-                                class="download-btn app-store" target="_blank">
-                                <i class="fab fa-apple"></i> App Store
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="game-card">
-                    <div class="game-image">
-                        <img src="https://placehold.co/400x300/fceee3/eb9c04?text=Block+Miner" alt="Block Miner">
-                    </div>
-                    <div class="game-content">
-                        <h3>Block Miner</h3>
-                        <p>An exciting mining adventure where you dig deep, collect resources, and build your
-                            underground empire.</p>
-                        <div class="game-tags">
-                            <span class="tag">Mining</span>
-                            <span class="tag">Strategy</span>
-                            <span class="tag">SOON</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+          // Image
+          if (game.image) {
+            const img = document.createElement('img');
+            // If the image URL starts with http(s), use it as is; otherwise
+            // assume it is stored in the uploads folder.  This makes it
+            // possible to upload an image via the CMS and reference it
+            // correctly on the site.
+            if (/^https?:\/\//i.test(game.image)) {
+              img.src = game.image;
+            } else {
+              img.src = '/images/uploads/' + game.image.replace(/^\/?images\/uploads\//, '');
+            }
+            img.alt = game.title || '';
+            card.appendChild(img);
+          }
 
-    <!-- Footer -->
-    <div id="footer-placeholder"></div>
+          const content = document.createElement('div');
+          content.className = 'game-card-content';
 
-    <script src="script.js"></script>
+          // Title
+          const titleEl = document.createElement('h2');
+          titleEl.textContent = game.title || 'Untitled Game';
+          content.appendChild(titleEl);
+
+          // Description
+          const descEl = document.createElement('p');
+          descEl.textContent = game.description || '';
+          content.appendChild(descEl);
+
+          // Download link
+          if (game.download_url) {
+            const linkEl = document.createElement('a');
+            linkEl.href = game.download_url;
+            linkEl.textContent = 'Download';
+            linkEl.target = '_blank';
+            content.appendChild(linkEl);
+          }
+
+          card.appendChild(content);
+          container.appendChild(card);
+        });
+      } catch (err) {
+        console.error(err);
+        const container = document.getElementById('games-container');
+        container.innerHTML = '<p>There was an error loading the games list.</p>';
+      }
+    }
+    loadGames();
+  </script>
 </body>
-
 </html>

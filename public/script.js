@@ -21,6 +21,25 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // Dynamically insert a "Games" menu item if it does not already exist.
+    // Since the header markup is loaded via an external component, adding
+    // the link here ensures it appears across all pages without manually
+    // editing the header template.  The link points to games.html, which
+    // lists all games pulled from the CMS.
+    (function addGamesMenuItem() {
+        if (!navLinks) return;
+        // Check if a link to games.html is already present
+        const existing = navLinks.querySelector('a[href="games.html"]');
+        if (existing) return;
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = 'games.html';
+        a.textContent = 'Games';
+        li.appendChild(a);
+        // Append at the end of the nav list
+        navLinks.appendChild(li);
+    })();
     
     // Set active link based on current page
     const currentPage = window.location.pathname.split('/').pop();

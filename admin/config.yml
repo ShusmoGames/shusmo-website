@@ -1,0 +1,80 @@
+############################################################
+# Netlify/Decap CMS configuration for Shusmo Games website #
+############################################################
+#
+# This file configures the admin panel exposed at /admin on your
+# website.  The CMS uses GitHub as the backend, committing any
+# changes directly to your repository.  To enable authentication you
+# must supply your own GitHub OAuth App credentials below (see
+# https://decapcms.com/docs/github-backend/ for details).  Once
+# configured, visiting /admin will prompt for a GitHub login and
+# allow authorised users to manage content.
+
+backend:
+  name: github
+  repo: ShusmoGames/shusmo-website    # Repository where content lives
+  branch: main                       # Branch to commit changes to
+  open_authoring: false              # Only maintainers can commit
+  # client_id and app_id must be provided by your GitHub OAuth App.  See
+  # https://docs.netlify.com/visitor-access/oauth-apps/ for setup.
+  client_id: Ov23li2btQ6nFOpjnE3i
+
+# Optional site display name shown in the CMS UI
+site_url: https://shusmo.io
+logo_url: https://shusmo.io/logo.png    # Change to your logo file if desired
+
+# Where uploaded media files (images) should be stored in the repo and how
+# they should be referenced on the public site.  All images uploaded
+# through the CMS will be saved to public/images/uploads and referenced
+# using the /images/uploads path when rendered in HTML.
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+publish_mode: simple  # Immediately commit and publish changes on save
+
+collections:
+  # A single JSON file containing an array of games.  When editing
+  # this collection in the CMS, you can add, edit or reorder games
+  # within the list.  Each game has a title, description, image and
+  # download URL.  The resulting games.json file will look like:
+  # {
+  #   "games": [
+  #     {
+  #       "title": "Game Title",
+  #       "description": "Long description…",
+  #       "image": "images/uploads/…",
+  #       "download_url": "https://…"
+  #     },
+  #     …
+  #   ]
+  # }
+  - name: games
+    label: Games
+    files:
+      - file: "public/games.json"
+        label: "Game List"
+        name: games_list
+        format: json
+        fields:
+          - label: Games
+            name: games
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Description, name: description, widget: text }
+              - { label: Image, name: image, widget: image }
+              - { label: Download URL, name: download_url, widget: string }
+
+  # A singleton JSON file for site‑wide settings such as contact info.
+  - name: settings
+    label: Settings
+    files:
+      - file: "public/contact.json"
+        label: "Contact Information"
+        name: contact
+        format: json
+        fields:
+          - { label: Email, name: email, widget: string }
+          - { label: Phone, name: phone, widget: string, required: false }
+          - { label: Address, name: address, widget: text, required: false }
