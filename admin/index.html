@@ -4,33 +4,50 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shusmo Admin</title>
-  <style>
-    /* Basic styling for the login prompt. Netlify CMS injects its own UI */
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f6f6f6;
-    }
-    .loader {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      color: #666;
-      font-size: 1.2rem;
-    }
-  </style>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="loader">Loading admin…</div>
-  <!--
-    The Netlify CMS script will automatically look for a config.yml file
-    in the same directory and mount the CMS.  When you deploy this folder
-    to your web server at /admin, navigating to /admin will load this page
-    and initialise the CMS UI.  Authentication is handled via GitHub – you
-    will need to create a GitHub OAuth application and fill out the
-    client_id and app_id in the config.yml before deploying.
-  -->
-  <script src="https://unpkg.com/netlify-cms-app@^2.12.20/dist/netlify-cms.js"></script>
+  <div id="app">
+    <div class="card" id="login-card">
+      <h1>Shusmo Admin</h1>
+      <p class="muted">Sign in with email & password</p>
+      <input id="email" type="email" placeholder="Email" />
+      <input id="password" type="password" placeholder="Password" />
+      <button id="login-btn">Login</button>
+      <p id="login-error" class="error"></p>
+    </div>
+
+    <div class="card hidden" id="dash-card">
+      <div class="toolbar">
+        <h2>Dashboard</h2>
+        <button id="logout-btn">Logout</button>
+      </div>
+
+      <section>
+        <h3>Contact / Settings</h3>
+        <label>Email <input id="contact-email" type="email"/></label>
+        <label>Phone <input id="contact-phone" type="text"/></label>
+        <label>Address <textarea id="contact-address"></textarea></label>
+        <button id="save-settings">Save Settings</button>
+        <span id="settings-status" class="muted"></span>
+      </section>
+
+      <hr/>
+
+      <section>
+        <h3>Games</h3>
+        <div id="games-list"></div>
+        <button id="add-game">+ Add Game</button>
+      </section>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script type="module" src="./firebase-config.js"></script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>

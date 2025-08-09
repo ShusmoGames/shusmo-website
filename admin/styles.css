@@ -1,0 +1,13 @@
+:root{--bg:#0b0b10;--card:#141421;--text:#eaeaf2;--muted:#9aa0ae;--acc:#ffd24a;}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif}
+.card{max-width:840px;margin:6vh auto;padding:24px;background:var(--card);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.hidden{display:none}
+h1,h2,h3{margin:8px 0 12px}
+input,textarea,button{width:100%;margin:8px 0 12px;padding:10px 12px;border-radius:10px;border:1px solid #2a2a3d;background:#0f0f18;color:var(--text)}
+button{cursor:pointer;background:linear-gradient(180deg,#ffe38a,#ffcc33);color:#121212;border:none;font-weight:700}
+button:hover{filter:brightness(.98);transform:translateY(-1px)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.muted{color:var(--muted);font-size:.9rem}
+.error{color:#ff6b6b}
+#games-list .game-row{display:grid;grid-template-columns:2fr 4fr 3fr 2fr auto;gap:8px;align-items:center;margin-bottom:8px}
+#games-list .game-row input,#games-list .game-row textarea{margin:0}
