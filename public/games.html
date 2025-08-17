@@ -82,12 +82,68 @@
   <main>
     <div id="games-container" class="games-grid"></div>
   </main>
-  <!-- Load games dynamically from Firestore -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-  <!-- Firebase configuration for public pages (imports config from admin folder) -->
-  <script type="module" src="admin/firebase-config.js"></script>
-  <!-- Render games from Firestore -->
-  <script type="module" src="scripts/games-public.js"></script>
+  <script>
+    async function loadGames() {
+      try {
+        const response = await fetch('games.json');
+        if (!response.ok) {
+          throw new Error('Could not load games data');
+        }
+        const data = await response.json();
+        const games = data.games || [];
+        const container = document.getElementById('games-container');
+        games.forEach(game => {
+          const card = document.createElement('div');
+          card.className = 'game-card';
+
+          // Image
+          if (game.image) {
+            const img = document.createElement('img');
+            // If the image URL starts with http(s), use it as is; otherwise
+            // assume it is stored in the uploads folder.  This makes it
+            // possible to upload an image via the CMS and reference it
+            // correctly on the site.
+            if (/^https?:\/\//i.test(game.image)) {
+              img.src = game.image;
+            } else {
+              img.src = '/images/uploads/' + game.image.replace(/^\/?images\/uploads\//, '');
+            }
+            img.alt = game.title || '';
+            card.appendChild(img);
+          }
+
+          const content = document.createElement('div');
+          content.className = 'game-card-content';
+
+          // Title
+          const titleEl = document.createElement('h2');
+          titleEl.textContent = game.title || 'Untitled Game';
+          content.appendChild(titleEl);
+
+          // Description
+          const descEl = document.createElement('p');
+          descEl.textContent = game.description || '';
+          content.appendChild(descEl);
+
+          // Download link
+          if (game.download_url) {
+            const linkEl = document.createElement('a');
+            linkEl.href = game.download_url;
+            linkEl.textContent = 'Download';
+            linkEl.target = '_blank';
+            content.appendChild(linkEl);
+          }
+
+          card.appendChild(content);
+          container.appendChild(card);
+        });
+      } catch (err) {
+        console.error(err);
+        const container = document.getElementById('games-container');
+        container.innerHTML = '<p>There was an error loading the games list.</p>';
+      }
+    }
+    loadGames();
+  </script>
 </body>
 </html>

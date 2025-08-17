@@ -3,14 +3,12 @@ service cloud.firestore {
   match /databases/{database}/documents {
     // Public read for games & settings (marketing site can read without auth).
     match /games/{doc} {
-      // Allow anyone to read games (public website) but require authentication for writes.
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if request.auth != null && request.auth.token.admin == true;
     }
     match /settings/{doc} {
-      // Allow anyone to read settings (contact information) but require authentication for writes.
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if request.auth != null && request.auth.token.admin == true;
     }
   }
 }
