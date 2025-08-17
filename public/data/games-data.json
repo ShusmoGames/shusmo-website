@@ -1,0 +1,33 @@
+{
+    "games": [
+        {
+            "id": 1,
+            "title": "Baby Seat",
+            "image": "Images/Games/Baby Seat.png",
+            "description": "This isn't just another racing game—it's a platform for players to create, share, and experience innovative driving mechanics like never before.",
+            "tags": ["Racing", "Arcade", "3D", "AAA"],
+            "platforms": [
+                {
+                    "name": "Google Play",
+                    "url": "https://play.google.com/store/apps/details?id=io.shusmo.realhajwala",
+                    "icon": "google-play",
+                    "color": "google-play"
+                },
+                {
+                    "name": "App Store",
+                    "url": "https://apps.apple.com/sa/app/baby-seat-driving-sim/id6590630336?uo=2",
+                    "icon": "apple",
+                    "color": "app-store"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "title": "Block Miner",
+            "image": "https://placehold.co/400x300/fceee3/eb9c04?text=Block+Miner",
+            "description": "An exciting mining adventure where you dig deep, collect resources, and build your underground empire.",
+            "tags": ["Mining", "Strategy", "SOON"],
+            "platforms": []
+        }
+    ]
+}
