@@ -1,202 +1,395 @@
-/* Mobile-optimized game details styles */
-.game-details {
-    padding: 20px 0;
-    background-color: #f8f9fa;
-}
-
-.back-button {
-    display: flex;
-    align-items: center;
-    color: #007bff;
-    text-decoration: none;
-    margin-bottom: 15px;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.back-button i {
-    margin-right: 8px;
-}
-
-.game-detail-card {
-    background: white;
-    border-radius: 12px;
-    z-index: 1000;
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(5, 4, 4, 0.1);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+/* Enhanced game-details.css */
+.game-detail-container {
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
-}
-
-.game-detail-image {
-    border-radius: 15px;
-    width: 100%;
-    max-height: 250px;
-    object-fit: cover;
-    overflow: hidden;
-    position: relative;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #fbd30c9e;
-    box-shadow: 5px 5px #bfbfbf25;
-}
-
-.game-header {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.game-image-container {
-    flex-shrink: 0;
-    width: 120px;
-    height: 120px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.game-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.game-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.game-title {
-    margin: 0;
-    font-size: 24px;
-    font-weight: 700;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
     color: #333;
 }
 
-.game-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 12px;
+/* Game Header with Background Image */
+.game-header {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
-.meta-tag {
-    background: #f1f3f5;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 14px;
-    color: #666;
+.header-content {
+    /* background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.1) 100%); */
+    padding: 30px 20px;
+    color: white;
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.game-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    border: 3px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.header-top h1 {
+    font-size: 2em;
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.header-bottom {
+    text-align: center;
 }
 
 .download-buttons {
     display: flex;
-    gap: 10px;
-    margin-top: 12px;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 15px;
 }
 
 .download-btn {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    text-decoration: none;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
     color: white;
-    transition: all 0.2s ease;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    min-width: 160px;
     text-align: center;
 }
 
-.download-btn.google-play {
-    background: #4285F4;
-}
-
-.download-btn.app-store {
-    background: #000000;
-}
-
 .download-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
-.download-btn i {
-    margin-right: 8px;
+.google-play {
+    background: linear-gradient(135deg, #4CAF50, #388E3C);
+}
+
+.app-store {
+    background: linear-gradient(135deg, #1A73E8, #1557B0);
+}
+
+/* Media Section */
+.media-section {
+    margin-bottom: 30px;
+}
+
+.media-section h3 {
+    color: #111;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+    padding: 0 5px;
+}
+
+.media-container {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.media-display {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    /* 16:9 */
+    /* background: #000; */
+}
+
+.media-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+}
+
+.media-frame iframe,
+.media-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.media-thumbnails {
+    display: flex;
+    gap: 8px;
+    padding: 15px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    background: #f8f9fa;
+    border-top: 1px solid #eee;
+}
+
+.thumbnail {
+    flex: 0 0 auto;
+    width: 100px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    position: relative;
+    border: 2px solid transparent;
+}
+
+.thumbnail:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.thumbnail.active {
+    opacity: 1;
+    border-color: #1A73E8;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
     font-size: 18px;
 }
 
-.game-description {
-    margin-top: 20px;
-    margin-bottom: 20px;
+/* Description and Tags Section */
+.description-tags-section {
+    margin-bottom: 30px;
+}
+
+.description-tags-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
 }
 
 .game-description h3 {
-    margin: 0 0 12px 0;
-    font-size: 18px;
-    color: #333;
-    font-weight: 600;
+    color: #111;
+    margin-bottom: 15px;
+    font-size: 1.3em;
 }
 
-.game-description p {
-    margin: 0 0 12px 0;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #555;
-}
-
-.game-tags-section {
-    margin-bottom: 20px;
-}
-
-.game-tags-section h4 {
-    margin: 0 0 12px 0;
-    font-size: 16px;
-    color: #333;
-    font-weight: 600;
-}
-
-.game-tags {
+.tag-section {
+    margin-top: 15px;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    padding: 10px 0 0 0;
+    border-top: 1px dashed #eee;
 }
 
 .tag {
-    background: #e9ecef;
-    color: #495057;
+    display: inline-block;
+    background: #e0e0e0;
     padding: 6px 12px;
     border-radius: 20px;
-    font-size: 14px;
+    font-size: 0.9em;
     font-weight: 500;
+    color: #555;
+    transition: background 0.2s;
 }
 
+.tag:hover {
+    background: #d0d0d0;
+}
+
+/* Game Info */
+.game-info {
+    margin-bottom: 30px;
+}
+
+.game-info h3 {
+    color: #111;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+    padding: 0 5px;
+}
+
+.game-info {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.info-row {
+    margin: 12px 0;
+    color: #555;
+    font-size: 1em;
+    padding: 0 5px;
+}
+
+.info-row strong {
+    color: #333;
+    min-width: 100px;
+    display: inline-block;
+}
+
+/* Reviews Section */
+.reviews-section {
+    margin-bottom: 30px;
+}
+
+.reviews-section h3 {
+    color: #111;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+    padding: 0 5px;
+}
+
+.reviews-section {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.review {
+    background: #f8f9fa;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+}
+
+.rating {
+    color: #FFA500;
+    margin-bottom: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.review small {
+    color: #666;
+    font-style: italic;
+}
+
+.share-section strong {
+    display: block;
+    margin-bottom: 15px;
+    color: #111;
+    font-size: 1.1em;
+}
+
+.share-btn {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.share-btn:hover {
+    background: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile Optimization */
+@media (max-width: 600px) {
+    .header-top {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .game-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .header-top h1 {
+        font-size: 1.8em;
+    }
+
+    .download-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .download-btn {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+    }
+
+    .media-thumbnails {
+        padding: 10px;
+    }
+
+    .thumbnail {
+        width: 80px;
+        height: 50px;
+    }
+
+    .description-tags-card,
+    .game-info,
+    .reviews-section {
+        padding: 20px;
+    }
+}
+
+/* Loading state */
 .loading {
     text-align: center;
     padding: 40px;
     color: #666;
-    font-size: 16px;
+    font-size: 1.1em;
 }
 
-/* Responsive adjustments */
-@media (min-width: 768px) {
-    .game-header {
-        flex-direction: row;
-        align-items: flex-start;
-    }
-
-    .game-image-container {
-        width: 150px;
-        height: 150px;
-    }
-
-    .game-info {
-        flex: 1;
-    }
+.error {
+    text-align: center;
+    padding: 40px;
+    color: #d32f2f;
+    font-size: 1.1em;
+    background: #ffebee;
+    border-radius: 12px;
+    margin: 20px;
 }

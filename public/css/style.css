@@ -431,14 +431,14 @@ header {
 }
 
 .google-play {
-    background-color: #4285F4;
+    background-color: #000000;
     color: white;
-    border: 1px solid #4285F4;
+    border: 1px solid #000000;
 }
 
 .google-play:hover {
     background-color: transparent;
-    color: #4285F4;
+    color: #000000;
     transform: translateY(-2px);
 }
 

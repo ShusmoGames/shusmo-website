@@ -3,9 +3,15 @@
         {
             "id": 1,
             "title": "Baby Seat",
-            "image": "Images/Games/Baby Seat.png",
+            "image": "Images/Games/Baby Seat/Baby Seat Header.png",
+            "icon": "Images/Games/Baby Seat/Baby Seat Icon.webp",
             "description": "This isn't just another racing game—it's a platform for players to create, share, and experience innovative driving mechanics like never before.",
-            "tags": ["Racing", "Arcade", "3D", "AAA"],
+            "tags": [
+                "Racing",
+                "Arcade",
+                "3D",
+                "AAA"
+            ],
             "platforms": [
                 {
                     "name": "Google Play",
@@ -19,15 +25,49 @@
                     "icon": "apple",
                     "color": "app-store"
                 }
+            ],
+            "releaseDate": "2024-03-15",
+            "developer": "Shusmo Games",
+            "genre": "Racing",
+            "languages": [
+                "English",
+                "Arabic",
+                "Spanish"
+            ],
+            "screenshots": [
+                "Images/Games/Baby Seat/Baby Seat Screenshot 002.webp",
+                "Images/Games/Baby Seat/Baby Seat Screenshot 001.webp",
+                "Images/Games/Baby Seat/Baby Seat Screenshot 003.webp",
+                "Images/Games/Baby Seat/Baby Seat Screenshot 004.webp",
+                "Images/Games/Baby Seat/Baby Seat Screenshot 005.webp",
+                "Images/Games/Baby Seat/Baby Seat Screenshot 006.webp",
+                "Images/Games/Baby Seat/Baby Seat Screenshot 007.webp",
+                "Images/Games/Baby Seat/Baby Seat Screenshot 008.webp"
             ]
         },
         {
             "id": 2,
             "title": "Block Miner",
             "image": "https://placehold.co/400x300/fceee3/eb9c04?text=Block+Miner",
+            "icon": "https://placehold.co/100x100/fceee3/eb9c04?text=BM",
             "description": "An exciting mining adventure where you dig deep, collect resources, and build your underground empire.",
-            "tags": ["Mining", "Strategy", "SOON"],
-            "platforms": []
+            "tags": [
+                "Mining",
+                "Strategy",
+                "SOON"
+            ],
+            "platforms": [],
+            "genre": "Adventure",
+            "developer": "Shusmo Games",
+            "languages": [
+                "English"
+            ],
+            "screenshots": [
+                "https://placehold.co/600x300/111827/ffffff?text=Screenshot+1",
+                "https://placehold.co/600x300/111827/ffffff?text=Screenshot+2",
+                "https://placehold.co/600x300/111827/ffffff?text=Screenshot+3"
+            ],
+            "trailerUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
         }
     ]
 }

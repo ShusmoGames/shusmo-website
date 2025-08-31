@@ -1,0 +1,47 @@
+//Game JSON
+{
+    "id": 0,
+    "title": "Baby Seat",
+    "image": "Images/Games/Baby Seat/Baby Seat Header.png",
+    "icon": "Images/Games/Baby Seat/Baby Seat Icon.webp",
+    "description": "This isn't just another racing game—it's a platform for players to create, share, and experience innovative driving mechanics like never before.",
+    "tags": [
+        "Racing",
+        "Arcade",
+        "3D",
+        "AAA"
+    ],
+    "platforms": [
+        {
+            "name": "Google Play",
+            "url": "https://play.google.com/store/apps/details?id=io.shusmo.realhajwala",
+            "icon": "google-play",
+            "color": "google-play"
+        },
+        {
+            "name": "App Store",
+            "url": "https://apps.apple.com/sa/app/baby-seat-driving-sim/id6590630336?uo=2",
+            "icon": "apple",
+            "color": "app-store"
+        }
+    ],
+    "releaseDate": "2024-03-15",
+    "developer": "Shusmo Games",
+    "genre": "Racing",
+    "languages": [
+        "English",
+        "Arabic",
+        "Spanish"
+    ],
+    "screenshots": [
+        "Images/Games/Baby Seat/Baby Seat Screenshot 002.webp",
+        "Images/Games/Baby Seat/Baby Seat Screenshot 001.webp",
+        "Images/Games/Baby Seat/Baby Seat Screenshot 003.webp",
+        "Images/Games/Baby Seat/Baby Seat Screenshot 004.webp",
+        "Images/Games/Baby Seat/Baby Seat Screenshot 005.webp",
+        "Images/Games/Baby Seat/Baby Seat Screenshot 006.webp",
+        "Images/Games/Baby Seat/Baby Seat Screenshot 007.webp",
+        "Images/Games/Baby Seat/Baby Seat Screenshot 008.webp"
+    ],
+    "trailerUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+}
