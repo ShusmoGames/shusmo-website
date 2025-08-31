@@ -141,7 +141,7 @@ function displayGameDetails(game) {
     // Set the inner HTML of the game content
     gameContent.innerHTML = `
         <!-- Game Header with Background -->
-        <header class="game-header" style="background-image: url('${game.image}');">
+        <header class="game-header">
             <div class="header-content">
                 <div class="header-top">
                     <img src="${game.icon || game.image}" alt="${game.title}" class="game-icon">

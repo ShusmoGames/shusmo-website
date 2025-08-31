@@ -56,7 +56,20 @@
                 "Strategy",
                 "SOON"
             ],
-            "platforms": [],
+            "platforms": [
+                {
+                    "name": "Google Play",
+                    "url": "https://play.google.com/store/apps/dev?id=6851212048734197699",
+                    "icon": "google-play",
+                    "color": "google-play"
+                },
+                {
+                    "name": "App Store",
+                    "url": "https://apps.apple.com/sa/developer/shusmo/id1760158810",
+                    "icon": "apple",
+                    "color": "app-store"
+                }
+            ],
             "genre": "Adventure",
             "developer": "Shusmo Games",
             "languages": [
