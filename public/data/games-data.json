@@ -1,7 +1,7 @@
 {
     "games": [
         {
-            "id": 1,
+            "id": "BabySeat",
             "title": "Baby Seat",
             "image": "Images/Games/Baby Seat/Baby Seat Header.png",
             "icon": "Images/Games/Baby Seat/Baby Seat Icon.webp",
@@ -46,7 +46,7 @@
             ]
         },
         {
-            "id": 2,
+            "id": "BlockMiner",
             "title": "Block Miner",
             "image": "https://placehold.co/400x300/fceee3/eb9c04?text=Block+Miner",
             "icon": "https://placehold.co/100x100/fceee3/eb9c04?text=BM",
