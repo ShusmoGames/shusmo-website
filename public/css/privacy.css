@@ -1,0 +1,124 @@
+.privacy-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    margin-top: 35px;
+    margin-bottom: 35px;
+    line-height: 1.7;
+    color: var(--black);
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.privacy-content h1 {
+    font-size: 2.6rem;
+    margin-bottom: 32px;
+    color: var(--black);
+    text-align: center;
+    position: relative;
+    display: inline-block;
+}
+
+.privacy-content h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--candlelight), var(--tahiti-gold));
+    border-radius: 2px;
+}
+
+.privacy-content h2 {
+    font-size: 1.9rem;
+    margin: 40px 0 22px;
+    color: var(--black);
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.privacy-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--candlelight), var(--tahiti-gold));
+}
+
+.privacy-content h3 {
+    font-size: 1.5rem;
+    margin: 28px 0 16px;
+    color: var(--black);
+}
+
+/* Body text: softer than pure black for better long-read comfort */
+.privacy-content p {
+    margin-bottom: 16px;
+    color: #333333; /* Dark gray instead of pure black */
+    font-size: 1.02rem;
+}
+
+/* List items: consistent with paragraph color */
+.privacy-content ul {
+    margin: 16px 0 22px 28px;
+    padding-left: 8px;
+}
+
+.privacy-content li {
+    margin-bottom: 10px;
+    color: #333333;
+    position: relative;
+    padding-left: 10px;
+}
+
+.privacy-content li::before {
+    content: '•';
+    color: var(--candlelight);
+    font-weight: bold;
+    position: absolute;
+    left: -16px;
+    top: 0;
+    font-size: 1.2em;
+}
+
+/* Links: vibrant but accessible */
+.privacy-content a {
+    color: var(--california); /* Slightly deeper than candlelight for better contrast */
+    text-decoration: underline;
+    transition: color 0.25s ease, text-decoration 0.25s ease;
+    font-weight: 600;
+}
+
+.privacy-content a:hover {
+    color: var(--thunderbird);
+    text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .privacy-content {
+        padding: 30px 15px;
+    }
+
+    .privacy-content h1 {
+        font-size: 2.1rem;
+    }
+
+    .privacy-content h2 {
+        font-size: 1.6rem;
+    }
+
+    .privacy-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .privacy-content p,
+    .privacy-content li {
+        font-size: 1rem;
+    }
+}
