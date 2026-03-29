@@ -284,7 +284,11 @@ function GameDetails() {
               <section className="card p-6 md:p-8">
                 <h2 className="text-2xl font-bold text-shusmo-black mb-4">About the Game</h2>
                 {game.full_description?.trim() ? (
-                  <p className="text-gray-600 leading-relaxed">{game.full_description}</p>
+                  <div className="text-gray-600 leading-relaxed space-y-4">
+                    {game.full_description.split('\n').filter(line => line.trim()).map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
+                  </div>
                 ) : (
                   <p className="text-gray-400 italic">No description available.</p>
                 )}
