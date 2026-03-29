@@ -53,17 +53,17 @@ function GameDetails() {
   const hasTrailer = game.trailer_url?.trim()
   const hasCoverUrl = game.cover_url?.trim()
   const hasIconUrl = game.icon_url?.trim()
-  
+
   // Determine if we have a "dark" visual background (trailer or cover only, NOT icon)
   const hasDarkBackground = hasTrailer || hasCoverUrl
-  
+
   // Header background style - only use trailer or cover, NOT icon
-  const headerBackground = hasTrailer 
-    ? null 
-    : hasCoverUrl 
+  const headerBackground = hasTrailer
+    ? null
+    : hasCoverUrl
       ? `url(${game.cover_url})`
       : 'none'
-  
+
   // Determine header base class - light gray if no trailer/cover
   const headerBgClass = hasDarkBackground
     ? 'bg-shusmo-black'
@@ -72,7 +72,7 @@ function GameDetails() {
   // Text colors based on background (dark bg = white text, light bg = dark text)
   const titleTextColor = hasDarkBackground ? 'text-white' : 'text-shusmo-black'
   const descTextColor = hasDarkBackground ? 'text-white/80' : 'text-gray-600'
-  
+
   // Overlay - dark overlay only for trailer/cover, light for nothing/icon-only
   const overlayBgClass = hasDarkBackground
     ? 'bg-gradient-to-t from-shusmo-black via-shusmo-black/60 to-shusmo-black/40'
@@ -88,6 +88,10 @@ function GameDetails() {
   const hasGooglePlay = game.google_play_link?.trim()
   const hasAppStore = game.app_store_link?.trim()
   const hasDownloadLinks = hasGooglePlay || hasAppStore
+
+  // Handle portrait/landscape images - use object-cover to fill the header
+  const coverObjectFit = hasCoverUrl ? 'object-cover' : 'object-cover'
+  const coverBgClass = hasCoverUrl ? 'bg-gray-100' : 'bg-white'
 
   return (
     <div className="bg-white">
@@ -134,14 +138,13 @@ function GameDetails() {
             </video>
           )
         ) : hasCoverUrl ? (
-          <div
-            style={{
-              backgroundImage: headerBackground,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-            className="absolute inset-0"
-          />
+          <div className={`absolute inset-0 ${coverBgClass}`}>
+            <img
+              src={game.cover_url}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </div>
         ) : null}
 
         {/* Gradient Overlays - dark overlay only for trailer/cover */}
