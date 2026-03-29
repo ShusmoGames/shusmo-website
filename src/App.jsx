@@ -3,6 +3,7 @@ import NavigationBar from './components/NavigationBar'
 import Home from './pages/Home'
 import Games from './pages/Games'
 import About from './pages/About'
+import GameDetails from './pages/GameDetails'
 
 /**
  * Main App Component
@@ -17,6 +18,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/games" element={<Games />} />
+            <Route path="/games/:id" element={<GameDetails />} />
             <Route path="/about" element={<About />} />
           </Routes>
         </main>
