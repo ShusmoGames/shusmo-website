@@ -169,57 +169,35 @@ function GameDetails() {
               {/* Download Card - Sticky */}
               <div className="card p-6 sticky top-24">
                 <h3 className="text-xl font-bold text-shusmo-black mb-4">Download Now</h3>
-                <p className="text-gray-600 text-sm mb-6">
-                  Start your adventure today. Free to download with optional in-app purchases.
-                </p>
-
-                <div className="space-y-3 mb-6">
+                
+                <div className="space-y-3">
+                  {/* Google Play Button - Official Brand Colors */}
                   <a
                     href={game.googlePlayUrl}
-                    className="flex items-center justify-center gap-2 bg-shusmo-black text-white font-semibold px-4 py-4 rounded-shusmo hover:bg-gray-800 transition-all duration-200 hover:scale-105"
+                    className="flex items-center justify-center gap-3 bg-[#01875f] hover:bg-[#017a56] text-white font-semibold px-6 py-4 rounded-shusmo transition-all duration-200 hover:scale-105 shadow-lg"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.537-.279.978.978 0 01-.287-.695V2.788a.978.978 0 01.287-.695.996.996 0 01.536-.279zm10.89 10.89l2.607-2.607a3.543 3.543 0 000-5.012l-2.607 2.607 5.012 5.012zm-5.012 5.012l2.607 2.607a3.543 3.543 0 005.012 0l-2.607-2.607-5.012 5.012z"/>
+                    {/* Google Play Icon */}
+                    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4 4.304V19.696L17.385 12L4 4.304Z" fill="white"/>
                     </svg>
-                    <div className="text-left">
-                      <div className="text-xs opacity-80">Get it on</div>
-                      <div className="text-lg font-bold">Google Play</div>
-                    </div>
+                    <span className="text-lg font-medium">Google Play</span>
                   </a>
 
+                  {/* App Store Button - Official Brand Colors */}
                   <a
                     href={game.appStoreUrl}
-                    className="flex items-center justify-center gap-2 bg-shusmo-black text-white font-semibold px-4 py-4 rounded-shusmo hover:bg-gray-800 transition-all duration-200 hover:scale-105"
+                    className="flex items-center justify-center gap-3 bg-[#007AFF] hover:bg-[#0066D6] text-white font-semibold px-6 py-4 rounded-shusmo transition-all duration-200 hover:scale-105 shadow-lg"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    {/* Apple Icon */}
+                    <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                       <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-.8 1.94-.8s.17 1.47-.56 2.3c-.73.83-1.94.8-1.94.8s-.17-1.47.56-2.3z"/>
                     </svg>
-                    <div className="text-left">
-                      <div className="text-xs opacity-80">Download on the</div>
-                      <div className="text-lg font-bold">App Store</div>
-                    </div>
+                    <span className="text-lg font-medium">App Store</span>
                   </a>
-                </div>
-
-                {/* Rating Stats */}
-                <div className="border-t border-gray-100 pt-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-gray-600 text-sm">Rating</span>
-                    <div className="flex items-center gap-2">
-                      <svg className="w-4 h-4 text-shusmo-yellow" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                      <span className="font-bold text-shusmo-black">{game.rating}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600 text-sm">Total Reviews</span>
-                    <span className="font-bold text-shusmo-black">{game.reviews.toLocaleString()}</span>
-                  </div>
                 </div>
               </div>
 
