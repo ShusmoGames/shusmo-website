@@ -17,7 +17,7 @@ function GameForm({ game, onSave, onCancel }) {
     google_play_link: '',
     app_store_link: '',
     genre: '',
-    social_links: { discord: '', twitter: '', reddit: '', youtube: '' },
+    social_links: { discord: '', twitter: '', reddit: '', youtube: '', instagram: '', facebook: '' },
     images: []
   })
   const [loading, setLoading] = useState(false)
@@ -42,7 +42,9 @@ function GameForm({ game, onSave, onCancel }) {
           discord: game.social_links?.discord || '',
           twitter: game.social_links?.twitter || '',
           reddit: game.social_links?.reddit || '',
-          youtube: game.social_links?.youtube || ''
+          youtube: game.social_links?.youtube || '',
+          instagram: game.social_links?.instagram || '',
+          facebook: game.social_links?.facebook || ''
         },
         images: game.images || []
       })
@@ -365,6 +367,34 @@ function GameForm({ game, onSave, onCancel }) {
               onChange={handleSocialChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
               placeholder="https://youtube.com/..."
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Instagram
+            </label>
+            <input
+              type="url"
+              name="instagram"
+              value={formData.social_links.instagram}
+              onChange={handleSocialChange}
+              className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
+              placeholder="https://instagram.com/..."
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Facebook
+            </label>
+            <input
+              type="url"
+              name="facebook"
+              value={formData.social_links.facebook}
+              onChange={handleSocialChange}
+              className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
+              placeholder="https://facebook.com/..."
             />
           </div>
         </div>
