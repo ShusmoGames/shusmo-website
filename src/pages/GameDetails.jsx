@@ -80,11 +80,11 @@ function GameDetails() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          
-          {/* Watch Trailer Button */}
+
+          {/* Watch Trailer Button - Bottom Right */}
           <button
             onClick={() => setShowTrailerModal(true)}
-            className="absolute top-6 right-4 md:right-8 flex items-center gap-2 bg-shusmo-yellow hover:bg-yellow-400 text-shusmo-black font-semibold px-5 py-2.5 md:px-6 md:py-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-10"
+            className="absolute bottom-6 right-4 md:bottom-8 md:right-8 flex items-center gap-2 bg-shusmo-yellow hover:bg-yellow-400 text-shusmo-black font-semibold px-5 py-2.5 md:px-6 md:py-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-10"
           >
             <svg className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z"/>
