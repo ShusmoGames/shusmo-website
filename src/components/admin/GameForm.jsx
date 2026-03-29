@@ -167,10 +167,16 @@ function GameForm({ game, onSave, onCancel }) {
   }
 
   const handleCancel = () => {
-    if (hasUnsavedChanges) {
+    // Always show exit confirmation when editing an existing game
+    if (game) {
       setShowExitConfirmModal(true)
     } else {
-      onCancel()
+      // For new games (add mode), only show if there are changes
+      if (hasUnsavedChanges) {
+        setShowExitConfirmModal(true)
+      } else {
+        onCancel()
+      }
     }
   }
 
