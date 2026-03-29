@@ -23,6 +23,10 @@ function GameForm({ game, onSave, onCancel }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [newImage, setNewImage] = useState('')
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [pendingSave, setPendingSave] = useState(null)
+  const [showExitConfirmModal, setShowExitConfirmModal] = useState(false)
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
 
   // Load game data when editing
   useEffect(() => {
@@ -57,6 +61,7 @@ function GameForm({ game, onSave, onCancel }) {
       ...prev,
       [name]: value
     }))
+    setHasUnsavedChanges(true)
   }
 
   const handleSocialChange = (e) => {
@@ -68,6 +73,7 @@ function GameForm({ game, onSave, onCancel }) {
         [name]: value
       }
     }))
+    setHasUnsavedChanges(true)
   }
 
   const handleAddImage = () => {
@@ -77,6 +83,7 @@ function GameForm({ game, onSave, onCancel }) {
         images: [...prev.images, newImage.trim()]
       }))
       setNewImage('')
+      setHasUnsavedChanges(true)
     }
   }
 
@@ -85,6 +92,7 @@ function GameForm({ game, onSave, onCancel }) {
       ...prev,
       images: prev.images.filter((_, i) => i !== index)
     }))
+    setHasUnsavedChanges(true)
   }
 
   const generateSlug = (name) => {
@@ -105,41 +113,75 @@ function GameForm({ game, onSave, onCancel }) {
     } else {
       setFormData(prev => ({ ...prev, name }))
     }
+    setHasUnsavedChanges(true)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    // Prepare social_links object (only include non-empty values)
+    const socialLinks = Object.fromEntries(
+      Object.entries(formData.social_links).filter(([_, value]) => value.trim())
+    )
+
+    const gameData = {
+      ...formData,
+      social_links: socialLinks
+    }
+
+    // Store pending save and show confirmation modal
+    setPendingSave(gameData)
+    setShowConfirmModal(true)
+  }
+
+  const confirmSave = async () => {
     setLoading(true)
     setError(null)
+    setShowConfirmModal(false)
 
     try {
-      // Prepare social_links object (only include non-empty values)
-      const socialLinks = Object.fromEntries(
-        Object.entries(formData.social_links).filter(([_, value]) => value.trim())
-      )
-
-      const gameData = {
-        ...formData,
-        social_links: socialLinks
-      }
-
-      const { error } = game
+      const { error } = pendingSave && game
         ? await supabase
             .from('games')
-            .update(gameData)
+            .update(pendingSave)
             .eq('id', game.id)
         : await supabase
             .from('games')
-            .insert([gameData])
+            .insert([pendingSave])
 
       if (error) throw error
 
+      setPendingSave(null)
       onSave()
     } catch (err) {
       setError(err.message)
+      setPendingSave(null)
     } finally {
       setLoading(false)
     }
+  }
+
+  const cancelSave = () => {
+    setPendingSave(null)
+    setShowConfirmModal(false)
+  }
+
+  const handleCancel = () => {
+    if (hasUnsavedChanges) {
+      setShowExitConfirmModal(true)
+    } else {
+      onCancel()
+    }
+  }
+
+  const confirmExit = () => {
+    setShowExitConfirmModal(false)
+    setHasUnsavedChanges(false)
+    onCancel()
+  }
+
+  const cancelExit = () => {
+    setShowExitConfirmModal(false)
   }
 
   return (
@@ -456,12 +498,78 @@ function GameForm({ game, onSave, onCancel }) {
         </button>
         <button
           type="button"
-          onClick={onCancel}
+          onClick={handleCancel}
           className="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-shusmo hover:bg-gray-50 transition-colors"
         >
           Cancel
         </button>
       </div>
+
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-shusmo max-w-md w-full p-6 shadow-xl">
+            <h3 className="text-xl font-bold text-shusmo-black mb-2">
+              {game ? 'Update Game?' : 'Add New Game?'}
+            </h3>
+            <p className="text-gray-600 mb-6">
+              {game 
+                ? `Are you sure you want to update "${game.name}"?`
+                : `Are you sure you want to add "${formData.name}"?`
+              }
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={confirmSave}
+                className="flex-1 bg-shusmo-yellow hover:bg-yellow-400 text-shusmo-black font-semibold px-4 py-2.5 rounded-shusmo transition-colors"
+              >
+                Confirm
+              </button>
+              <button
+                onClick={cancelSave}
+                className="flex-1 border border-gray-300 text-gray-700 font-semibold px-4 py-2.5 rounded-shusmo hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Exit Confirmation Modal */}
+      {showExitConfirmModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-shusmo max-w-md w-full p-6 shadow-xl">
+            <div className="mb-4">
+              <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-shusmo-black mb-2">
+                Unsaved Changes
+              </h3>
+              <p className="text-gray-600">
+                You have unsaved changes. Are you sure you want to exit without saving?
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={confirmExit}
+                className="flex-1 bg-shusmo-yellow hover:bg-yellow-400 text-shusmo-black font-semibold px-4 py-2.5 rounded-shusmo transition-colors"
+              >
+                Exit Without Saving
+              </button>
+              <button
+                onClick={cancelExit}
+                className="flex-1 border border-gray-300 text-gray-700 font-semibold px-4 py-2.5 rounded-shusmo hover:bg-gray-50 transition-colors"
+              >
+                Continue Editing
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   )
 }

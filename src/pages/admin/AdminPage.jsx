@@ -14,6 +14,10 @@ function AdminPage() {
   const [view, setView] = useState('list') // 'list', 'add', 'edit'
   const [selectedGame, setSelectedGame] = useState(null)
   const [deletingId, setDeletingId] = useState(null)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [gameToDelete, setGameToDelete] = useState(null)
+  const [deleteConfirmText, setDeleteConfirmText] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
 
   // Check authentication status
   useEffect(() => {
@@ -62,26 +66,44 @@ function AdminPage() {
     setView('edit')
   }
 
-  const handleDelete = async (id, name) => {
-    if (!confirm(`Are you sure you want to delete "${name}"?`)) {
+  const handleDelete = (game) => {
+    setGameToDelete(game)
+    setShowDeleteModal(true)
+    setDeleteConfirmText('')
+  }
+
+  const confirmDelete = async () => {
+    if (!gameToDelete) return
+    
+    // Check if the confirm text matches the game name
+    if (deleteConfirmText.trim() !== gameToDelete.name) {
       return
     }
 
-    setDeletingId(id)
+    setIsDeleting(true)
     try {
       const { error } = await supabase
         .from('games')
         .delete()
-        .eq('id', id)
+        .eq('id', gameToDelete.id)
 
       if (error) throw error
 
-      setGames(games.filter(g => g.id !== id))
+      setGames(games.filter(g => g.id !== gameToDelete.id))
+      setShowDeleteModal(false)
+      setGameToDelete(null)
+      setDeleteConfirmText('')
     } catch (error) {
       alert('Error deleting game: ' + error.message)
     } finally {
-      setDeletingId(null)
+      setIsDeleting(false)
     }
+  }
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false)
+    setGameToDelete(null)
+    setDeleteConfirmText('')
   }
 
   const handleSaveSuccess = () => {
@@ -201,18 +223,13 @@ function AdminPage() {
                                 </svg>
                               </button>
                               <button
-                                onClick={() => handleDelete(game.id, game.name)}
-                                disabled={deletingId === game.id}
-                                className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors disabled:opacity-50"
+                                onClick={() => handleDelete(game)}
+                                className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
                                 title="Delete"
                               >
-                                {deletingId === game.id ? (
-                                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-red-600"></div>
-                                ) : (
-                                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                  </svg>
-                                )}
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
                               </button>
                             </div>
                           </td>
@@ -251,6 +268,67 @@ function AdminPage() {
                   setSelectedGame(null)
                 }}
               />
+            </div>
+          )}
+
+          {/* Delete Confirmation Modal */}
+          {showDeleteModal && gameToDelete && (
+            <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+              <div className="bg-white rounded-shusmo max-w-md w-full p-6 shadow-xl">
+                <div className="mb-4">
+                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                    <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold text-shusmo-black mb-2">
+                    Delete Game
+                  </h3>
+                  <p className="text-gray-600">
+                    This action cannot be undone. This will permanently delete the game
+                    <span className="font-semibold text-shusmo-black"> "{gameToDelete.name}"</span>
+                    .
+                  </p>
+                </div>
+
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Type <span className="font-semibold text-shusmo-black">"{gameToDelete.name}"</span> to confirm:
+                  </label>
+                  <input
+                    type="text"
+                    value={deleteConfirmText}
+                    onChange={(e) => setDeleteConfirmText(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    placeholder="Enter game name"
+                    autoFocus
+                  />
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={confirmDelete}
+                    disabled={deleteConfirmText.trim() !== gameToDelete.name || isDeleting}
+                    className="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-red-300 disabled:cursor-not-allowed text-white font-semibold px-4 py-2.5 rounded-shusmo transition-colors flex items-center justify-center gap-2"
+                  >
+                    {isDeleting ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        Deleting...
+                      </>
+                    ) : (
+                      'Delete Game'
+                    )}
+                  </button>
+                  <button
+                    onClick={cancelDelete}
+                    disabled={isDeleting}
+                    className="flex-1 border border-gray-300 text-gray-700 font-semibold px-4 py-2.5 rounded-shusmo hover:bg-gray-50 transition-colors disabled:opacity-50"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>
