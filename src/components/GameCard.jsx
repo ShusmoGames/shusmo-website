@@ -15,27 +15,30 @@ function GameCard({ game }) {
   return (
     <Link
       to={`/games/${gameSlug}`}
-      className="group relative h-80 rounded-shusmo overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
+      className="group relative h-80 rounded-shusmo overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-gray-300"
     >
       {/* Game Image */}
       <img
         src={coverImage}
         alt={game.name}
-        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         loading="lazy"
       />
 
-      {/* Dark Overlay Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
 
       {/* Game Name Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 p-6">
-        <h3 className="text-2xl font-bold text-white mb-1">
+      <div className="absolute bottom-0 left-0 right-0 p-5">
+        <h3 className="text-xl font-semibold text-white mb-2 line-clamp-2">
           {game.name}
         </h3>
-        <span className="text-shusmo-yellow text-sm font-medium">
-          View Details →
-        </span>
+        <div className="flex items-center gap-2 text-white/70 text-sm">
+          <span>View Details</span>
+          <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
       </div>
     </Link>
   )
