@@ -301,13 +301,13 @@ function GameForm({ game, onSave, onCancel }) {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Icon URL
           </label>
-          <div className="flex gap-2">
+          <div className="relative">
             <input
               type="url"
               name="icon_url"
               value={formData.icon_url}
               onChange={handleChange}
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
+              className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
               placeholder="https://example.com/icon.png"
             />
             <input
@@ -321,14 +321,14 @@ function GameForm({ game, onSave, onCancel }) {
               type="button"
               onClick={() => iconInputRef.current?.click()}
               disabled={uploadingImage === 'icon'}
-              className="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-shusmo transition-colors disabled:opacity-50 flex items-center gap-2"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-shusmo-yellow transition-colors disabled:opacity-50"
               title="Upload icon image"
             >
               {uploadingImage === 'icon' ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-shusmo-black"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-shusmo-black"></div>
               ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                 </svg>
               )}
             </button>
@@ -341,13 +341,13 @@ function GameForm({ game, onSave, onCancel }) {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Cover URL
           </label>
-          <div className="flex gap-2">
+          <div className="relative">
             <input
               type="url"
               name="cover_url"
               value={formData.cover_url}
               onChange={handleChange}
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
+              className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
               placeholder="https://example.com/cover.jpg"
             />
             <input
@@ -361,14 +361,14 @@ function GameForm({ game, onSave, onCancel }) {
               type="button"
               onClick={() => coverInputRef.current?.click()}
               disabled={uploadingImage === 'cover'}
-              className="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-shusmo transition-colors disabled:opacity-50 flex items-center gap-2"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-shusmo-yellow transition-colors disabled:opacity-50"
               title="Upload cover image"
             >
               {uploadingImage === 'cover' ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-shusmo-black"></div>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-shusmo-black"></div>
               ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                 </svg>
               )}
             </button>
@@ -562,42 +562,43 @@ function GameForm({ game, onSave, onCancel }) {
         <h3 className="text-lg font-medium text-shusmo-black mb-4">Screenshots</h3>
 
         <div className="flex gap-2 mb-4">
-          <input
-            type="url"
-            value={newImage}
-            onChange={(e) => setNewImage(e.target.value)}
-            className="flex-1 px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
-            placeholder="https://example.com/screenshot.jpg"
-          />
+          <div className="relative flex-1">
+            <input
+              type="url"
+              value={newImage}
+              onChange={(e) => setNewImage(e.target.value)}
+              className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
+              placeholder="https://example.com/screenshot.jpg"
+            />
+            <input
+              type="file"
+              ref={screenshotInputRef}
+              onChange={(e) => handleImageUpload(e, 'screenshot')}
+              accept="image/*"
+              className="hidden"
+            />
+            <button
+              type="button"
+              onClick={() => screenshotInputRef.current?.click()}
+              disabled={uploadingImage === 'screenshot'}
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-400 hover:text-shusmo-yellow transition-colors disabled:opacity-50"
+              title="Upload screenshot"
+            >
+              {uploadingImage === 'screenshot' ? (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-shusmo-black"></div>
+              ) : (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
+              )}
+            </button>
+          </div>
           <button
             type="button"
             onClick={handleAddImage}
-            className="px-4 py-3 bg-shusmo-yellow hover:bg-yellow-400 text-shusmo-black font-semibold rounded-shusmo transition-colors"
+            className="px-6 py-3 bg-shusmo-yellow hover:bg-yellow-400 text-shusmo-black font-semibold rounded-shusmo transition-colors"
           >
             Add
-          </button>
-          <span className="text-gray-400">or</span>
-          <input
-            type="file"
-            ref={screenshotInputRef}
-            onChange={(e) => handleImageUpload(e, 'screenshot')}
-            accept="image/*"
-            className="hidden"
-          />
-          <button
-            type="button"
-            onClick={() => screenshotInputRef.current?.click()}
-            disabled={uploadingImage === 'screenshot'}
-            className="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-shusmo transition-colors disabled:opacity-50 flex items-center gap-2"
-          >
-            {uploadingImage === 'screenshot' ? (
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-shusmo-black"></div>
-            ) : (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            )}
-            Upload
           </button>
         </div>
 
