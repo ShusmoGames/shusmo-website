@@ -4,17 +4,17 @@ import { Link } from 'react-router-dom'
  * GameCard Component
  * Clean clickable card with image and game name overlay
  * Links to the game details page
- * @param {Object} game - Game object with id, name, and icon_url
+ * @param {Object} game - Game object with id, name, slug, and cover_url
  */
 function GameCard({ game }) {
   return (
     <Link
-      to={`/games/${game.id}`}
+      to={`/games/${game.slug}`}
       className="group relative h-80 rounded-shusmo overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
     >
       {/* Game Image */}
       <img
-        src={game.icon_url}
+        src={game.cover_url}
         alt={game.name}
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         loading="lazy"

@@ -34,11 +34,11 @@ export function useGames() {
 }
 
 /**
- * Custom hook to fetch a single game by ID from Supabase
- * @param {number} id - Game ID
+ * Custom hook to fetch a single game by slug from Supabase
+ * @param {string} slug - Game slug
  * @returns {Object} - { game, loading, error }
  */
-export function useGame(id) {
+export function useGame(slug) {
   const [game, setGame] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -49,7 +49,7 @@ export function useGame(id) {
         const { data, error } = await supabase
           .from('games')
           .select('*')
-          .eq('id', id)
+          .eq('slug', slug)
           .single()
 
         if (error) throw error
@@ -61,10 +61,10 @@ export function useGame(id) {
       }
     }
 
-    if (id) {
+    if (slug) {
       fetchGame()
     }
-  }, [id])
+  }, [slug])
 
   return { game, loading, error }
 }

@@ -9,9 +9,9 @@ import SocialLinks from '../components/SocialLinks'
  * Clean game details page with header, gallery carousel, and description
  */
 function GameDetails() {
-  const { id } = useParams()
+  const { slug } = useParams()
   const navigate = useNavigate()
-  const { game, loading, error } = useGame(id)
+  const { game, loading, error } = useGame(slug)
   const [showTrailerModal, setShowTrailerModal] = useState(false)
   const videoRef = useRef(null)
   const modalVideoRef = useRef(null)
@@ -86,7 +86,7 @@ function GameDetails() {
               height: '100%',
               objectFit: 'cover'
             }}
-            poster={game.icon_url}
+            poster={game.cover_url}
           >
             <source src={game.trailer_url || ''} type="video/mp4" />
             Your browser does not support the video tag.
