@@ -59,8 +59,8 @@ function GameDetails() {
           {/* Game Title Overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
             <div className="max-w-4xl flex items-end gap-4 md:gap-6">
-              {/* Game Icon */}
-              <div className="flex-shrink-0 w-20 h-20 md:w-28 md:h-28 bg-gradient-to-br from-shusmo-yellow to-yellow-500 rounded-shusmo shadow-xl overflow-hidden border-4 border-white/30">
+              {/* Game Icon - Minimalist */}
+              <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white rounded-shusmo overflow-hidden shadow-lg">
                 <img
                   src={game.image}
                   alt={game.title}
@@ -70,9 +70,6 @@ function GameDetails() {
               
               {/* Game Info */}
               <div className="flex-1">
-                <span className="inline-block bg-shusmo-yellow text-shusmo-black text-xs md:text-sm font-bold px-3 py-1 rounded-full mb-3">
-                  {game.genre}
-                </span>
                 <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2">
                   {game.title}
                 </h1>
