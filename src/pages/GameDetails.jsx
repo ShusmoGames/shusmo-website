@@ -160,6 +160,21 @@ function GameDetails() {
                 <h2 className="text-2xl font-bold text-shusmo-black mb-4">About the Game</h2>
                 <p className="text-gray-600 leading-relaxed mb-6">{game.description}</p>
                 <p className="text-gray-600 leading-relaxed">{game.longDescription}</p>
+                
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-gray-100">
+                  <span className="bg-shusmo-yellow text-shusmo-black text-sm font-semibold px-4 py-2 rounded-full">
+                    {game.genre}
+                  </span>
+                  {game.platforms.map((platform, index) => (
+                    <span key={index} className="bg-gray-100 text-gray-700 text-sm font-medium px-4 py-2 rounded-full">
+                      {platform}
+                    </span>
+                  ))}
+                  <span className="bg-gray-100 text-gray-700 text-sm font-medium px-4 py-2 rounded-full">
+                    {game.ageRating}
+                  </span>
+                </div>
               </section>
             </div>
 
