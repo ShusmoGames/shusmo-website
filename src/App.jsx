@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Games from './pages/Games'
 import About from './pages/About'
 import GameDetails from './pages/GameDetails'
+import AdminPage from './pages/admin/AdminPage'
 
 /**
  * Main App Component
@@ -20,6 +21,7 @@ function App() {
             <Route path="/games" element={<Games />} />
             <Route path="/games/:slug" element={<GameDetails />} />
             <Route path="/about" element={<About />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </main>
       </div>
