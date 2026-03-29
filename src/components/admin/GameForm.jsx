@@ -630,15 +630,16 @@ function GameForm({ game, onSave, onCancel }) {
       <div className="flex gap-4 pt-6 border-t">
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || uploadingImage !== null}
           className="flex-1 bg-shusmo-yellow hover:bg-yellow-400 text-shusmo-black font-semibold px-6 py-3 rounded-shusmo transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Saving...' : (game ? 'Update Game' : 'Add Game')}
+          {loading ? 'Saving...' : uploadingImage !== null ? 'Uploading...' : (game ? 'Update Game' : 'Add Game')}
         </button>
         <button
           type="button"
           onClick={handleCancel}
-          className="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-shusmo hover:bg-gray-50 transition-colors"
+          disabled={loading || uploadingImage !== null}
+          className="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-shusmo hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Cancel
         </button>
