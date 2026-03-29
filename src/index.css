@@ -7,7 +7,7 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply bg-white text-shusmo-black antialiased;
   }
@@ -16,18 +16,18 @@
 /* Custom component styles */
 @layer components {
   .btn-primary {
-    @apply bg-shusmo-yellow text-shusmo-black font-semibold px-8 py-4 rounded-shusmo 
-           hover:scale-105 active:scale-95 transition-all duration-300 
+    @apply bg-shusmo-yellow text-shusmo-black font-semibold px-8 py-4 rounded-shusmo
+           hover:scale-105 active:scale-95 transition-all duration-300
            shadow-lg hover:shadow-xl;
   }
-  
+
   .card {
-    @apply bg-white rounded-shusmo shadow-md hover:shadow-xl 
-           transition-all duration-300 hover:scale-[1.02];
+    @apply bg-white rounded-shusmo shadow-md
+           transition-all duration-300;
   }
-  
+
   .nav-link {
-    @apply text-shusmo-black hover:text-shusmo-yellow font-medium 
+    @apply text-shusmo-black hover:text-shusmo-yellow font-medium
            transition-colors duration-200;
   }
 }
