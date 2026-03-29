@@ -35,7 +35,7 @@ export function useGames() {
 
 /**
  * Custom hook to fetch a single game by slug from Supabase
- * @param {string} slug - Game slug
+ * @param {string|number} slug - Game slug or ID
  * @returns {Object} - { game, loading, error }
  */
 export function useGame(slug) {
@@ -46,11 +46,25 @@ export function useGame(slug) {
   useEffect(() => {
     async function fetchGame() {
       try {
-        const { data, error } = await supabase
-          .from('games')
-          .select('*')
-          .eq('slug', slug)
-          .single()
+        // Check if slug is actually a number (ID fallback)
+        const isNumeric = !isNaN(slug) && !isNaN(parseFloat(slug))
+        
+        let query
+        if (isNumeric) {
+          // If slug is numeric, try to find by ID first
+          query = supabase
+            .from('games')
+            .select('*')
+            .eq('id', slug)
+        } else {
+          // Otherwise search by slug
+          query = supabase
+            .from('games')
+            .select('*')
+            .eq('slug', slug)
+        }
+        
+        const { data, error } = await query.single()
 
         if (error) throw error
         setGame(data)

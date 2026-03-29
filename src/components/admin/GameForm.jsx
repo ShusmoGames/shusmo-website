@@ -188,33 +188,33 @@ function GameForm({ game, onSave, onCancel }) {
         {/* Icon URL */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Icon URL *
+            Icon URL
           </label>
           <input
             type="url"
             name="icon_url"
             value={formData.icon_url}
             onChange={handleChange}
-            required
             className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
             placeholder="https://example.com/icon.png"
           />
+          <p className="mt-1 text-xs text-gray-500">Leave empty to use default logo</p>
         </div>
 
         {/* Cover URL */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Cover URL *
+            Cover URL
           </label>
           <input
             type="url"
             name="cover_url"
             value={formData.cover_url}
             onChange={handleChange}
-            required
             className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
             placeholder="https://example.com/cover.jpg"
           />
+          <p className="mt-1 text-xs text-gray-500">Leave empty to use default logo</p>
         </div>
       </div>
 
@@ -236,31 +236,29 @@ function GameForm({ game, onSave, onCancel }) {
       {/* Descriptions */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Short Description *
+          Short Description
         </label>
         <input
           type="text"
           name="short_description"
           value={formData.short_description}
           onChange={handleChange}
-          required
           className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
-          placeholder="One-line tagline"
+          placeholder="One-line tagline (optional)"
         />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Full Description *
+          Full Description
         </label>
         <textarea
           name="full_description"
           value={formData.full_description}
           onChange={handleChange}
-          required
           rows="6"
           className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
-          placeholder="Complete game description..."
+          placeholder="Complete game description... (optional)"
         />
       </div>
 

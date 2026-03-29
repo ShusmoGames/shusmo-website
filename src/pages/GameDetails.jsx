@@ -49,52 +49,86 @@ function GameDetails() {
     return url.replace('watch?v=', 'embed/')
   }
 
+  // Determine header background
+  const hasTrailer = game.trailer_url?.trim()
+  const hasCoverUrl = game.cover_url?.trim()
+  const headerBackground = hasTrailer 
+    ? null 
+    : hasCoverUrl 
+      ? `url(${game.cover_url})` 
+      : 'none'
+  const headerBgColor = !hasTrailer && !hasCoverUrl ? 'bg-gray-100' : 'bg-shusmo-black'
+
+  // Determine icon URL (use logo if null)
+  const iconUrl = game.icon_url?.trim() || '/logo.png'
+
+  // Check if social links have any valid values
+  const hasSocialLinks = game.social_links && Object.values(game.social_links).some(link => link?.trim())
+
+  // Check if download links exist
+  const hasGooglePlay = game.google_play_link?.trim()
+  const hasAppStore = game.app_store_link?.trim()
+  const hasDownloadLinks = hasGooglePlay || hasAppStore
+
   return (
     <div className="bg-white">
-      {/* Hero Section - Full Header with Autoplay Background Trailer */}
-      <section className="relative bg-shusmo-black -mt-20 h-[60vh] md:h-[75vh] w-full overflow-hidden">
-        {/* Video Section - Full Header Height */}
-        {game.trailer_url && game.trailer_url.includes('youtube.com') ? (
-          <iframe
-            ref={videoRef}
-            src={`${getYouTubeEmbedUrl(game.trailer_url)}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&enablejsapi=1&playsinline=1`}
-            title="Game Trailer"
+      {/* Hero Section */}
+      <section className={`relative ${headerBgColor} -mt-20 h-[60vh] md:h-[75vh] w-full overflow-hidden`}>
+        {/* Header Background */}
+        {hasTrailer ? (
+          game.trailer_url.includes('youtube.com') ? (
+            <iframe
+              ref={videoRef}
+              src={`${getYouTubeEmbedUrl(game.trailer_url)}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&enablejsapi=1&playsinline=1`}
+              title="Game Trailer"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : (
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              loop
+              playsInline
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }}
+              poster={hasCoverUrl ? game.cover_url : undefined}
+            >
+              <source src={game.trailer_url} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )
+        ) : hasCoverUrl ? (
+          <div
             style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover'
+              backgroundImage: headerBackground,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
             }}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
+            className="absolute inset-0"
           />
-        ) : (
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover'
-            }}
-            poster={game.cover_url}
-          >
-            <source src={game.trailer_url || ''} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        )}
+        ) : null}
 
-        {/* Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-shusmo-black via-shusmo-black/60 to-shusmo-black/40" />
+        {/* Gradient Overlays - only if there's a trailer or cover image */}
+        {(hasTrailer || hasCoverUrl) && (
+          <div className="absolute inset-0 bg-gradient-to-t from-shusmo-black via-shusmo-black/60 to-shusmo-black/40" />
+        )}
 
         {/* Game Title Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
@@ -102,7 +136,7 @@ function GameDetails() {
             {/* Game Icon - Minimalist */}
             <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white rounded-shusmo overflow-hidden shadow-lg">
               <img
-                src={game.icon_url}
+                src={iconUrl}
                 alt={game.name}
                 className="w-full h-full object-cover"
               />
@@ -113,9 +147,11 @@ function GameDetails() {
               <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2">
                 {game.name}
               </h1>
-              <p className="text-white/80 text-sm md:text-lg">
-                {game.short_description}
-              </p>
+              {game.short_description?.trim() && (
+                <p className="text-white/80 text-sm md:text-lg">
+                  {game.short_description}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -130,17 +166,19 @@ function GameDetails() {
           </svg>
         </button>
 
-        {/* Watch Trailer Button - Bottom Right */}
-        <button
-          onClick={() => setShowTrailerModal(true)}
-          className="absolute bottom-6 right-4 md:bottom-8 md:right-8 flex items-center gap-2 bg-shusmo-yellow hover:bg-yellow-400 text-shusmo-black font-semibold px-5 py-2.5 md:px-6 md:py-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-10"
-        >
-          <svg className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-          <span className="hidden sm:inline">Watch Trailer</span>
-          <span className="sm:hidden">Trailer</span>
-        </button>
+        {/* Watch Trailer Button - Bottom Right (only if trailer exists) */}
+        {hasTrailer && (
+          <button
+            onClick={() => setShowTrailerModal(true)}
+            className="absolute bottom-6 right-4 md:bottom-8 md:right-8 flex items-center gap-2 bg-shusmo-yellow hover:bg-yellow-400 text-shusmo-black font-semibold px-5 py-2.5 md:px-6 md:py-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-10"
+          >
+            <svg className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span className="hidden sm:inline">Watch Trailer</span>
+            <span className="sm:hidden">Trailer</span>
+          </button>
+        )}
       </section>
 
       {/* Trailer Modal Popup */}
@@ -167,7 +205,7 @@ function GameDetails() {
 
             {/* Video Container */}
             <div className="relative aspect-video rounded-shusmo overflow-hidden shadow-2xl">
-              {game.trailer_url && game.trailer_url.includes('youtube.com') ? (
+              {game.trailer_url.includes('youtube.com') ? (
                 <iframe
                   ref={modalVideoRef}
                   src={getYouTubeEmbedUrl(game.trailer_url)}
@@ -183,7 +221,7 @@ function GameDetails() {
                   controls
                   className="w-full h-full"
                 >
-                  <source src={game.trailer_url || ''} type="video/mp4" />
+                  <source src={game.trailer_url} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               )}
@@ -219,10 +257,14 @@ function GameDetails() {
               {/* Game Description Section */}
               <section className="card p-6 md:p-8">
                 <h2 className="text-2xl font-bold text-shusmo-black mb-4">About the Game</h2>
-                <p className="text-gray-600 leading-relaxed">{game.full_description}</p>
+                {game.full_description?.trim() ? (
+                  <p className="text-gray-600 leading-relaxed">{game.full_description}</p>
+                ) : (
+                  <p className="text-gray-400 italic">No description available.</p>
+                )}
 
                 {/* Tags */}
-                {game.genre && (
+                {game.genre?.trim() && (
                   <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-gray-100">
                     <span className="bg-shusmo-yellow text-shusmo-black text-sm font-semibold px-4 py-2 rounded-full">
                       {game.genre}
@@ -236,7 +278,7 @@ function GameDetails() {
             <div className="lg:col-span-1 space-y-6">
 
               {/* Social Links Card */}
-              {game.social_links && Object.keys(game.social_links).length > 0 && (
+              {hasSocialLinks && (
                 <div className="card p-6">
                   <h3 className="text-lg font-bold text-shusmo-black mb-4">Join the Community</h3>
                   <SocialLinks social={game.social_links} />
@@ -244,13 +286,13 @@ function GameDetails() {
               )}
 
               {/* Download Card - Sticky */}
-              {(game.google_play_link || game.app_store_link) && (
+              {hasDownloadLinks && (
                 <div className="card p-6 sticky top-24">
                   <h3 className="text-xl font-bold text-shusmo-black mb-4">Download Now</h3>
 
                   <div className="space-y-3">
                     {/* Google Play Button */}
-                    {game.google_play_link && (
+                    {hasGooglePlay && (
                       <a
                         href={game.google_play_link}
                         className="flex items-center justify-center gap-3 bg-[#01875f] hover:bg-[#017a56] text-white font-semibold px-6 py-4 rounded-shusmo transition-all duration-200 hover:scale-105 shadow-lg"
@@ -265,7 +307,7 @@ function GameDetails() {
                     )}
 
                     {/* App Store Button */}
-                    {game.app_store_link && (
+                    {hasAppStore && (
                       <a
                         href={game.app_store_link}
                         className="flex items-center justify-center gap-3 bg-[#007AFF] hover:bg-[#0066D6] text-white font-semibold px-6 py-4 rounded-shusmo transition-all duration-200 hover:scale-105 shadow-lg"

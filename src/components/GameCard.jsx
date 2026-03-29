@@ -7,14 +7,19 @@ import { Link } from 'react-router-dom'
  * @param {Object} game - Game object with id, name, slug, and cover_url
  */
 function GameCard({ game }) {
+  // Use logo if cover_url is null/empty, otherwise use cover_url
+  const coverImage = game.cover_url?.trim() || '/logo.png'
+  // Use id as slug if slug is null/empty
+  const gameSlug = game.slug?.trim() || game.id
+
   return (
     <Link
-      to={`/games/${game.slug}`}
+      to={`/games/${gameSlug}`}
       className="group relative h-80 rounded-shusmo overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]"
     >
       {/* Game Image */}
       <img
-        src={game.cover_url}
+        src={coverImage}
         alt={game.name}
         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         loading="lazy"

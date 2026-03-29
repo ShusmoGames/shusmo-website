@@ -171,23 +171,23 @@ function AdminPage() {
                           <td className="py-4 px-4">
                             <div className="flex items-center gap-3">
                               <img
-                                src={game.icon_url}
+                                src={game.icon_url?.trim() || '/logo.png'}
                                 alt={game.name}
                                 className="w-12 h-12 object-cover rounded-shusmo"
                               />
                               <div>
                                 <p className="font-medium text-shusmo-black">{game.name}</p>
-                                <p className="text-sm text-gray-500 truncate max-w-xs">{game.short_description}</p>
+                                <p className="text-sm text-gray-500 truncate max-w-xs">{game.short_description || 'No description'}</p>
                               </div>
                             </div>
                           </td>
                           <td className="py-4 px-4 hidden md:table-cell">
                             <span className="bg-shusmo-yellow/20 text-shusmo-black text-sm font-medium px-3 py-1 rounded-full">
-                              {game.genre || 'N/A'}
+                              {game.genre?.trim() || 'N/A'}
                             </span>
                           </td>
                           <td className="py-4 px-4 hidden lg:table-cell">
-                            <code className="text-sm text-gray-600">{game.slug}</code>
+                            <code className="text-sm text-gray-600">{game.slug?.trim() || game.id}</code>
                           </td>
                           <td className="py-4 px-4">
                             <div className="flex items-center justify-end gap-2">
