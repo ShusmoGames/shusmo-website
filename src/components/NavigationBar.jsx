@@ -21,7 +21,6 @@ function NavigationBar() {
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/games" className="nav-link">Games</Link>
             <Link to="/about" className="nav-link">About</Link>
-            <Link to="/admin" className="nav-link text-shusmo-yellow hover:text-yellow-600">Admin</Link>
           </div>
         </div>
       </div>

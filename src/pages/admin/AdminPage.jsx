@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
+import { useNavigate } from 'react-router-dom'
 import AdminAuth from './AdminAuth'
 import GameForm from '../../components/admin/GameForm'
 
@@ -8,6 +9,7 @@ import GameForm from '../../components/admin/GameForm'
  * Game management dashboard for administrators
  */
 function AdminPage() {
+  const navigate = useNavigate()
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(true)
   const [games, setGames] = useState([])
@@ -19,15 +21,34 @@ function AdminPage() {
   const [deleteConfirmText, setDeleteConfirmText] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
 
-  // Check authentication status
+  // Check authentication status and domain restriction
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        // Check if user email is @shusmo.io domain
+        const userEmail = session.user?.email || ''
+        if (!userEmail.endsWith('@shusmo.io')) {
+          // Log out user and redirect to home
+          supabase.auth.signOut()
+          navigate('/')
+          return
+        }
+      }
       setSession(session)
       setLoading(false)
     })
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
+        if (session) {
+          // Check domain on auth state change
+          const userEmail = session.user?.email || ''
+          if (!userEmail.endsWith('@shusmo.io')) {
+            supabase.auth.signOut()
+            navigate('/')
+            return
+          }
+        }
         setSession(session)
       }
     )
