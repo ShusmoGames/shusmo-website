@@ -52,15 +52,34 @@ function GameDetails() {
   // Determine header background
   const hasTrailer = game.trailer_url?.trim()
   const hasCoverUrl = game.cover_url?.trim()
+  const hasIconUrl = game.icon_url?.trim()
+  
+  // Determine if we have any visual background (trailer, cover, or icon)
+  const hasVisualBackground = hasTrailer || hasCoverUrl || hasIconUrl
+  
+  // Header background style
   const headerBackground = hasTrailer 
     ? null 
     : hasCoverUrl 
-      ? `url(${game.cover_url})` 
-      : 'none'
-  const headerBgColor = !hasTrailer && !hasCoverUrl ? 'bg-gray-100' : 'bg-shusmo-black'
+      ? `url(${game.cover_url})`
+      : hasIconUrl
+        ? `url(${game.icon_url})`
+        : 'none'
+  
+  // Determine header base class
+  const headerBgClass = hasTrailer || hasCoverUrl || hasIconUrl
+    ? 'bg-shusmo-black'
+    : 'bg-gradient-to-br from-gray-100 to-gray-200'
 
-  // Determine icon URL (use logo if null)
-  const iconUrl = game.icon_url?.trim() || '/logo.png'
+  // Text colors based on background
+  const titleTextColor = hasVisualBackground ? 'text-white' : 'text-shusmo-black'
+  const descTextColor = hasVisualBackground ? 'text-white/80' : 'text-gray-600'
+  const overlayBgClass = hasVisualBackground
+    ? 'bg-gradient-to-t from-shusmo-black via-shusmo-black/60 to-shusmo-black/40'
+    : 'bg-gradient-to-t from-white/80 via-white/20 to-transparent'
+
+  // Icon URL (use logo if null)
+  const iconUrl = hasIconUrl ? game.icon_url : '/logo.png'
 
   // Check if social links have any valid values
   const hasSocialLinks = game.social_links && Object.values(game.social_links).some(link => link?.trim())
@@ -73,7 +92,7 @@ function GameDetails() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className={`relative ${headerBgColor} -mt-20 h-[60vh] md:h-[75vh] w-full overflow-hidden`}>
+      <section className={`relative ${headerBgClass} -mt-20 h-[60vh] md:h-[75vh] w-full overflow-hidden`}>
         {/* Header Background */}
         {hasTrailer ? (
           game.trailer_url.includes('youtube.com') ? (
@@ -108,13 +127,13 @@ function GameDetails() {
                 height: '100%',
                 objectFit: 'cover'
               }}
-              poster={hasCoverUrl ? game.cover_url : undefined}
+              poster={hasCoverUrl ? game.cover_url : hasIconUrl ? game.icon_url : undefined}
             >
               <source src={game.trailer_url} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           )
-        ) : hasCoverUrl ? (
+        ) : hasCoverUrl || hasIconUrl ? (
           <div
             style={{
               backgroundImage: headerBackground,
@@ -125,16 +144,16 @@ function GameDetails() {
           />
         ) : null}
 
-        {/* Gradient Overlays - only if there's a trailer or cover image */}
-        {(hasTrailer || hasCoverUrl) && (
-          <div className="absolute inset-0 bg-gradient-to-t from-shusmo-black via-shusmo-black/60 to-shusmo-black/40" />
+        {/* Gradient Overlays - only if there's a visual background */}
+        {hasVisualBackground && (
+          <div className={`absolute inset-0 ${overlayBgClass}`} />
         )}
 
         {/* Game Title Overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
           <div className="max-w-4xl flex items-end gap-4 md:gap-6">
             {/* Game Icon - Minimalist */}
-            <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white rounded-shusmo overflow-hidden shadow-lg">
+            <div className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-shusmo overflow-hidden shadow-lg ${hasVisualBackground ? 'bg-white' : 'bg-white/90'}`}>
               <img
                 src={iconUrl}
                 alt={game.name}
@@ -144,11 +163,11 @@ function GameDetails() {
 
             {/* Game Info */}
             <div className="flex-1">
-              <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2">
+              <h1 className={`text-3xl md:text-5xl font-extrabold mb-2 ${titleTextColor}`}>
                 {game.name}
               </h1>
               {game.short_description?.trim() && (
-                <p className="text-white/80 text-sm md:text-lg">
+                <p className={`text-sm md:text-lg ${descTextColor}`}>
                   {game.short_description}
                 </p>
               )}
@@ -159,9 +178,13 @@ function GameDetails() {
         {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
-          className="absolute top-6 left-4 md:left-8 flex items-center gap-2 bg-white/90 hover:bg-white px-4 py-2 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-10"
+          className={`absolute top-6 left-4 md:left-8 flex items-center gap-2 px-4 py-2 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-10 ${
+            hasVisualBackground
+              ? 'bg-white/90 hover:bg-white text-shusmo-black'
+              : 'bg-white hover:bg-gray-100 text-shusmo-black border border-gray-200'
+          }`}
         >
-          <svg className="w-5 h-5 text-shusmo-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
