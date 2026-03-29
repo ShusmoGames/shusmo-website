@@ -250,14 +250,18 @@ function AdminPage() {
                     <thead>
                       <tr className="border-b border-gray-200">
                         <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Game</th>
-                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600 hidden md:table-cell">Genre</th>
+                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600 hidden md:table-cell">Status</th>
+                        <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600 hidden lg:table-cell">Genre</th>
                         <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600 hidden lg:table-cell">Slug</th>
                         <th className="text-right py-3 px-4 text-sm font-semibold text-gray-600">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {games.map((game) => (
-                        <tr key={game.id} className="border-b border-gray-100 hover:bg-gray-50">
+                        <tr 
+                          key={game.id} 
+                          className={`border-b hover:bg-gray-50 ${!game.published ? 'bg-gray-50' : ''}`}
+                        >
                           <td className="py-4 px-4">
                             <div className="flex items-center gap-3">
                               <img
@@ -272,6 +276,19 @@ function AdminPage() {
                             </div>
                           </td>
                           <td className="py-4 px-4 hidden md:table-cell">
+                            {game.published ? (
+                              <span className="flex items-center gap-1.5 text-green-700">
+                                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                                <span className="text-sm font-medium">Published</span>
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-1.5 text-gray-600">
+                                <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
+                                <span className="text-sm font-medium">Draft</span>
+                              </span>
+                            )}
+                          </td>
+                          <td className="py-4 px-4 hidden lg:table-cell">
                             <span className="bg-shusmo-yellow/20 text-shusmo-black text-sm font-medium px-3 py-1 rounded-full">
                               {game.genre?.trim() || 'N/A'}
                             </span>

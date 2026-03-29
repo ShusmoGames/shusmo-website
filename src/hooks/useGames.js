@@ -16,6 +16,7 @@ export function useGames() {
         const { data, error } = await supabase
           .from('games')
           .select('*')
+          .eq('published', true)
           .order('created_at', { ascending: false })
 
         if (error) throw error

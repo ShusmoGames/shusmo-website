@@ -17,6 +17,7 @@ function GameForm({ game, onSave, onCancel }) {
     google_play_link: '',
     app_store_link: '',
     genre: '',
+    published: true,
     social_links: { discord: '', twitter: '', reddit: '', youtube: '', instagram: '', facebook: '' },
     images: []
   })
@@ -46,6 +47,7 @@ function GameForm({ game, onSave, onCancel }) {
         google_play_link: game.google_play_link || '',
         app_store_link: game.app_store_link || '',
         genre: game.genre || '',
+        published: game.published !== undefined ? game.published : true,
         social_links: {
           discord: game.social_links?.discord || '',
           twitter: game.social_links?.twitter || '',
@@ -477,6 +479,23 @@ function GameForm({ game, onSave, onCancel }) {
           placeholder="Complete game description... (optional)"
         />
         <p className="mt-1 text-xs text-gray-500">Detailed description of the game, features, and gameplay</p>
+      </div>
+
+      {/* Published Toggle */}
+      <div>
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            name="published"
+            checked={formData.published}
+            onChange={(e) => setFormData(prev => ({ ...prev, published: e.target.checked }))}
+            className="w-5 h-5 text-shusmo-yellow border-gray-300 rounded focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
+          />
+          <div>
+            <span className="text-sm font-medium text-gray-700">Published</span>
+            <p className="text-xs text-gray-500">Unpublished games are hidden from the public games page</p>
+          </div>
+        </label>
       </div>
 
       {/* Trailer URL */}
