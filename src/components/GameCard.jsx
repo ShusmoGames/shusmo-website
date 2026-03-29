@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom'
  * GameCard Component
  * Clean clickable card with image and game name overlay
  * Links to the game details page
- * @param {Object} game - Game object with id, name, slug, and icon_url
+ * @param {Object} game - Game object with id, name, slug, cover_url, and icon_url
  */
 function GameCard({ game }) {
-  // Use logo if icon_url is null/empty, otherwise use icon_url
-  const coverImage = game.icon_url?.trim() || '/logo.png'
+  // Use cover_url first, then icon_url, then default logo
+  const coverImage = game.cover_url?.trim() || game.icon_url?.trim() || '/logo.png'
   // Use id as slug if slug is null/empty
   const gameSlug = game.slug?.trim() || game.id
 
