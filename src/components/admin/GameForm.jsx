@@ -144,6 +144,32 @@ function GameForm({ game, onSave, onCancel }) {
     setShowConfirmModal(false)
 
     try {
+      // If updating, clean up old images
+      if (game) {
+        const oldImages = []
+        
+        // Collect old image URLs to delete
+        if (game.icon_url && game.icon_url !== formData.icon_url) {
+          oldImages.push(game.icon_url)
+        }
+        if (game.cover_url && game.cover_url !== formData.cover_url) {
+          oldImages.push(game.cover_url)
+        }
+        
+        // Find removed screenshots
+        if (game.images && game.images.length > 0) {
+          const removedScreenshots = game.images.filter(
+            url => !formData.images.includes(url)
+          )
+          oldImages.push(...removedScreenshots)
+        }
+        
+        // Delete old images from storage
+        if (oldImages.length > 0) {
+          await deleteImagesFromStorage(oldImages)
+        }
+      }
+
       const { error } = pendingSave && game
         ? await supabase
             .from('games')
@@ -162,6 +188,34 @@ function GameForm({ game, onSave, onCancel }) {
       setPendingSave(null)
     } finally {
       setLoading(false)
+    }
+  }
+
+  // Helper function to delete images from Supabase Storage
+  const deleteImagesFromStorage = async (imageUrls) => {
+    try {
+      // Extract file paths from URLs
+      const pathsToDelete = imageUrls
+        .filter(url => url.includes('game-images'))
+        .map(url => {
+          // Extract path from URL: https://xxx.supabase.co/storage/v1/object/public/game-images/icon/xxx.png
+          const parts = url.split('/game-images/')
+          return parts.length > 1 ? parts[1] : null
+        })
+        .filter(path => path !== null)
+
+      if (pathsToDelete.length === 0) return
+
+      // Delete from storage
+      const { error } = await supabase.storage
+        .from('game-images')
+        .remove(pathsToDelete)
+
+      if (error) {
+        console.error('Error deleting images:', error)
+      }
+    } catch (err) {
+      console.error('Error in image cleanup:', err)
     }
   }
 
