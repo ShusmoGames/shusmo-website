@@ -166,6 +166,12 @@ function GameDetails() {
             {/* Sidebar */}
             <div className="lg:col-span-1 space-y-6">
 
+              {/* Social Links Card */}
+              <div className="card p-6">
+                <h3 className="text-lg font-bold text-shusmo-black mb-4">Join the Community</h3>
+                <SocialLinks social={game.social} />
+              </div>
+
               {/* Download Card - Sticky */}
               <div className="card p-6 sticky top-24">
                 <h3 className="text-xl font-bold text-shusmo-black mb-4">Download Now</h3>
@@ -199,12 +205,6 @@ function GameDetails() {
                     <span className="text-lg font-medium">App Store</span>
                   </a>
                 </div>
-              </div>
-
-              {/* Social Links Card */}
-              <div className="card p-6">
-                <h3 className="text-lg font-bold text-shusmo-black mb-4">Join the Community</h3>
-                <SocialLinks social={game.social} />
               </div>
             </div>
           </div>
