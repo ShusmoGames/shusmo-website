@@ -274,6 +274,7 @@ function GameForm({ game, onSave, onCancel }) {
             className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
             placeholder="Enter game name"
           />
+          <p className="mt-1 text-xs text-gray-500">The title of your game as it will appear to users</p>
         </div>
 
         {/* Slug */}
@@ -290,7 +291,7 @@ function GameForm({ game, onSave, onCancel }) {
             className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
             placeholder="game-name"
           />
-          <p className="mt-1 text-xs text-gray-500">URL-friendly name (e.g., cosmic-dreams)</p>
+          <p className="mt-1 text-xs text-gray-500">URL-friendly identifier (e.g., cosmic-dreams). Auto-generated for new games.</p>
         </div>
       </div>
 
@@ -333,7 +334,7 @@ function GameForm({ game, onSave, onCancel }) {
               )}
             </button>
           </div>
-          <p className="mt-1 text-xs text-gray-500">Leave empty to use default logo or upload an image</p>
+          <p className="mt-1 text-xs text-gray-500">Small square image for the game details page. Leave empty to use default logo.</p>
         </div>
 
         {/* Cover URL */}
@@ -373,7 +374,7 @@ function GameForm({ game, onSave, onCancel }) {
               )}
             </button>
           </div>
-          <p className="mt-1 text-xs text-gray-500">Leave empty to use default logo or upload an image</p>
+          <p className="mt-1 text-xs text-gray-500">Large banner image for game cards. Leave empty to use default logo.</p>
         </div>
       </div>
 
@@ -390,6 +391,7 @@ function GameForm({ game, onSave, onCancel }) {
           className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
           placeholder="e.g., Strategy, Puzzle, Racing"
         />
+        <p className="mt-1 text-xs text-gray-500">Category or type of the game (optional)</p>
       </div>
 
       {/* Descriptions */}
@@ -405,6 +407,7 @@ function GameForm({ game, onSave, onCancel }) {
           className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
           placeholder="One-line tagline (optional)"
         />
+        <p className="mt-1 text-xs text-gray-500">Brief tagline shown under the game title</p>
       </div>
 
       <div>
@@ -419,6 +422,7 @@ function GameForm({ game, onSave, onCancel }) {
           className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
           placeholder="Complete game description... (optional)"
         />
+        <p className="mt-1 text-xs text-gray-500">Detailed description of the game, features, and gameplay</p>
       </div>
 
       {/* Trailer URL */}
@@ -434,6 +438,7 @@ function GameForm({ game, onSave, onCancel }) {
           className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
           placeholder="https://www.youtube.com/watch?v=..."
         />
+        <p className="mt-1 text-xs text-gray-500">YouTube video URL for autoplay background and trailer modal</p>
       </div>
 
       {/* Store Links */}
@@ -450,6 +455,7 @@ function GameForm({ game, onSave, onCancel }) {
             className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
             placeholder="https://play.google.com/..."
           />
+          <p className="mt-1 text-xs text-gray-500">Link to the game on Google Play Store</p>
         </div>
 
         <div>
@@ -464,12 +470,14 @@ function GameForm({ game, onSave, onCancel }) {
             className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
             placeholder="https://apps.apple.com/..."
           />
+          <p className="mt-1 text-xs text-gray-500">Link to the game on Apple App Store</p>
         </div>
       </div>
 
       {/* Social Links */}
       <div className="border-t pt-6">
         <h3 className="text-lg font-medium text-shusmo-black mb-4">Social Links</h3>
+        <p className="text-xs text-gray-500 mb-4">Add links to your game's social media pages (optional)</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -483,6 +491,7 @@ function GameForm({ game, onSave, onCancel }) {
               className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
               placeholder="https://discord.gg/..."
             />
+            <p className="mt-1 text-xs text-gray-500">Discord server invite link</p>
           </div>
 
           <div>
@@ -497,6 +506,7 @@ function GameForm({ game, onSave, onCancel }) {
               className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
               placeholder="https://twitter.com/..."
             />
+            <p className="mt-1 text-xs text-gray-500">Twitter/X profile or game page</p>
           </div>
 
           <div>
@@ -511,6 +521,7 @@ function GameForm({ game, onSave, onCancel }) {
               className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
               placeholder="https://reddit.com/r/..."
             />
+            <p className="mt-1 text-xs text-gray-500">Subreddit for the game</p>
           </div>
 
           <div>
@@ -525,6 +536,7 @@ function GameForm({ game, onSave, onCancel }) {
               className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
               placeholder="https://youtube.com/..."
             />
+            <p className="mt-1 text-xs text-gray-500">YouTube channel link</p>
           </div>
 
           <div>
@@ -539,6 +551,7 @@ function GameForm({ game, onSave, onCancel }) {
               className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
               placeholder="https://instagram.com/..."
             />
+            <p className="mt-1 text-xs text-gray-500">Instagram profile or game page</p>
           </div>
 
           <div>
@@ -553,6 +566,7 @@ function GameForm({ game, onSave, onCancel }) {
               className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
               placeholder="https://facebook.com/..."
             />
+            <p className="mt-1 text-xs text-gray-500">Facebook page link</p>
           </div>
         </div>
       </div>
@@ -560,6 +574,7 @@ function GameForm({ game, onSave, onCancel }) {
       {/* Screenshots */}
       <div className="border-t pt-6">
         <h3 className="text-lg font-medium text-shusmo-black mb-4">Screenshots</h3>
+        <p className="text-xs text-gray-500 mb-4">Add gameplay screenshots to showcase your game (optional)</p>
 
         <div className="flex gap-2 mb-4">
           <div className="relative flex-1">
@@ -601,6 +616,7 @@ function GameForm({ game, onSave, onCancel }) {
             Add
           </button>
         </div>
+        <p className="text-xs text-gray-500 -mt-3 mb-4">Upload images or paste URLs. Click on a screenshot to remove it.</p>
 
         {formData.images.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
