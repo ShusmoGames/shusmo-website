@@ -54,29 +54,29 @@ function GameDetails() {
   const hasCoverUrl = game.cover_url?.trim()
   const hasIconUrl = game.icon_url?.trim()
   
-  // Determine if we have any visual background (trailer, cover, or icon)
-  const hasVisualBackground = hasTrailer || hasCoverUrl || hasIconUrl
+  // Determine if we have a "dark" visual background (trailer or cover only, NOT icon)
+  const hasDarkBackground = hasTrailer || hasCoverUrl
   
-  // Header background style
+  // Header background style - only use trailer or cover, NOT icon
   const headerBackground = hasTrailer 
     ? null 
     : hasCoverUrl 
       ? `url(${game.cover_url})`
-      : hasIconUrl
-        ? `url(${game.icon_url})`
-        : 'none'
+      : 'none'
   
-  // Determine header base class
-  const headerBgClass = hasTrailer || hasCoverUrl || hasIconUrl
+  // Determine header base class - light gray if no trailer/cover
+  const headerBgClass = hasDarkBackground
     ? 'bg-shusmo-black'
     : 'bg-gradient-to-br from-gray-100 to-gray-200'
 
-  // Text colors based on background
-  const titleTextColor = hasVisualBackground ? 'text-white' : 'text-shusmo-black'
-  const descTextColor = hasVisualBackground ? 'text-white/80' : 'text-gray-600'
-  const overlayBgClass = hasVisualBackground
+  // Text colors based on background (dark bg = white text, light bg = dark text)
+  const titleTextColor = hasDarkBackground ? 'text-white' : 'text-shusmo-black'
+  const descTextColor = hasDarkBackground ? 'text-white/80' : 'text-gray-600'
+  
+  // Overlay - dark overlay only for trailer/cover, light for nothing/icon-only
+  const overlayBgClass = hasDarkBackground
     ? 'bg-gradient-to-t from-shusmo-black via-shusmo-black/60 to-shusmo-black/40'
-    : 'bg-gradient-to-t from-white/80 via-white/20 to-transparent'
+    : 'bg-gradient-to-t from-white/50 via-white/10 to-transparent'
 
   // Icon URL (use logo if null)
   const iconUrl = hasIconUrl ? game.icon_url : '/logo.png'
@@ -133,7 +133,7 @@ function GameDetails() {
               Your browser does not support the video tag.
             </video>
           )
-        ) : hasCoverUrl || hasIconUrl ? (
+        ) : hasCoverUrl ? (
           <div
             style={{
               backgroundImage: headerBackground,
@@ -144,8 +144,8 @@ function GameDetails() {
           />
         ) : null}
 
-        {/* Gradient Overlays - only if there's a visual background */}
-        {hasVisualBackground && (
+        {/* Gradient Overlays - dark overlay only for trailer/cover */}
+        {hasDarkBackground && (
           <div className={`absolute inset-0 ${overlayBgClass}`} />
         )}
 
@@ -153,7 +153,7 @@ function GameDetails() {
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
           <div className="max-w-4xl flex items-end gap-4 md:gap-6">
             {/* Game Icon - Minimalist */}
-            <div className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-shusmo overflow-hidden shadow-lg ${hasVisualBackground ? 'bg-white' : 'bg-white/90'}`}>
+            <div className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-shusmo overflow-hidden shadow-lg ${hasDarkBackground ? 'bg-white' : 'bg-white/90'}`}>
               <img
                 src={iconUrl}
                 alt={game.name}
@@ -179,7 +179,7 @@ function GameDetails() {
         <button
           onClick={() => navigate(-1)}
           className={`absolute top-6 left-4 md:left-8 flex items-center gap-2 px-4 py-2 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-10 ${
-            hasVisualBackground
+            hasDarkBackground
               ? 'bg-white/90 hover:bg-white text-shusmo-black'
               : 'bg-white hover:bg-gray-100 text-shusmo-black border border-gray-200'
           }`}
