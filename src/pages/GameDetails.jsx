@@ -52,14 +52,22 @@ function GameDetails() {
   return (
     <div className="bg-white">
       {/* Hero Section - Full Header with Autoplay Background Trailer */}
-      <section className="relative bg-shusmo-black -mt-20 h-[60vh] md:h-[75vh] overflow-hidden">
+      <section className="relative bg-shusmo-black -mt-20 h-[60vh] md:h-[75vh] w-full overflow-hidden">
         {/* Video Section - Full Header Height */}
         {game.trailer_url && game.trailer_url.includes('youtube.com') ? (
           <iframe
             ref={videoRef}
-            src={`${getYouTubeEmbedUrl(game.trailer_url)}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&enablejsapi=1`}
+            src={`${getYouTubeEmbedUrl(game.trailer_url)}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&enablejsapi=1&playsinline=1`}
             title="Game Trailer"
-            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
+            frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
@@ -70,7 +78,14 @@ function GameDetails() {
             muted
             loop
             playsInline
-            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
             poster={game.icon_url}
           >
             <source src={game.trailer_url || ''} type="video/mp4" />
