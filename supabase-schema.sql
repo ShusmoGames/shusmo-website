@@ -112,7 +112,50 @@ CREATE POLICY "Allow admin delete"
 -- INSERT INTO admin_access (email) VALUES ('your-email@example.com');
 
 -- ============================================
--- 7. Configure Google OAuth Redirect URLs
+-- 7. Create Storage Bucket for Game Images
+-- ============================================
+
+-- Create bucket if it doesn't exist (run this in Supabase Dashboard -> Storage)
+-- Or via SQL:
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('game-images', 'game-images', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Allow public read access to all objects in the bucket
+CREATE POLICY "Public Access"
+  ON storage.objects FOR SELECT
+  TO public
+  USING (bucket_id = 'game-images');
+
+-- Allow authenticated admins to upload files
+CREATE POLICY "Admin Upload Access"
+  ON storage.objects FOR INSERT
+  TO authenticated
+  WITH CHECK (
+    bucket_id = 'game-images' AND
+    is_admin()
+  );
+
+-- Allow authenticated admins to update files
+CREATE POLICY "Admin Update Access"
+  ON storage.objects FOR UPDATE
+  TO authenticated
+  USING (
+    bucket_id = 'game-images' AND
+    is_admin()
+  );
+
+-- Allow authenticated admins to delete files
+CREATE POLICY "Admin Delete Access"
+  ON storage.objects FOR DELETE
+  TO authenticated
+  USING (
+    bucket_id = 'game-images' AND
+    is_admin()
+  );
+
+-- ============================================
+-- 8. Configure Google OAuth Redirect URLs
 -- ============================================
 
 -- In Supabase Dashboard:
@@ -123,26 +166,3 @@ CREATE POLICY "Allow admin delete"
 -- For local development:
 -- Site URL: http://localhost:5173
 -- Redirect URLs: http://localhost:5173/admin
-
--- ============================================
--- 8. Storage Setup (Optional - for image uploads)
--- ============================================
-
--- Create a bucket for game images
--- Run this in Supabase Dashboard -> Storage -> New Bucket
--- Bucket name: game-images
--- Public: true
-
--- Storage RLS Policies (optional, if using Supabase Storage)
--- CREATE POLICY "Public Access"
---   ON storage.objects FOR SELECT
---   TO public
---   USING (bucket_id = 'game-images');
-
--- CREATE POLICY "Admin Upload Access"
---   ON storage.objects FOR INSERT
---   TO authenticated
---   WITH CHECK (
---     bucket_id = 'game-images' AND
---     is_admin()
---   );

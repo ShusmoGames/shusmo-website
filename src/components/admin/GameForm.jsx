@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
 
 /**
@@ -27,6 +27,10 @@ function GameForm({ game, onSave, onCancel }) {
   const [pendingSave, setPendingSave] = useState(null)
   const [showExitConfirmModal, setShowExitConfirmModal] = useState(false)
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
+  const [uploadingImage, setUploadingImage] = useState(null) // 'icon', 'cover', or 'screenshot'
+  const iconInputRef = useRef(null)
+  const coverInputRef = useRef(null)
+  const screenshotInputRef = useRef(null)
 
   // Load game data when editing
   useEffect(() => {
@@ -190,6 +194,63 @@ function GameForm({ game, onSave, onCancel }) {
     setShowExitConfirmModal(false)
   }
 
+  // Handle image upload to Supabase Storage
+  const handleImageUpload = async (e, type) => {
+    const file = e.target.files[0]
+    if (!file) return
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setError('Please select a valid image file')
+      return
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image size must be less than 5MB')
+      return
+    }
+
+    setUploadingImage(type)
+    setError(null)
+
+    try {
+      // Create unique filename
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
+      const filePath = `${type}/${fileName}`
+
+      // Upload to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('game-images')
+        .upload(filePath, file)
+
+      if (uploadError) throw uploadError
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('game-images')
+        .getPublicUrl(filePath)
+
+      // Update form data based on type
+      if (type === 'icon') {
+        setFormData(prev => ({ ...prev, icon_url: publicUrl }))
+      } else if (type === 'cover') {
+        setFormData(prev => ({ ...prev, cover_url: publicUrl }))
+      } else if (type === 'screenshot') {
+        setFormData(prev => ({ ...prev, images: [...prev.images, publicUrl] }))
+      }
+
+      setHasUnsavedChanges(true)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setUploadingImage(null)
+      // Reset file input
+      e.target.value = ''
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
@@ -240,15 +301,39 @@ function GameForm({ game, onSave, onCancel }) {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Icon URL
           </label>
-          <input
-            type="url"
-            name="icon_url"
-            value={formData.icon_url}
-            onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
-            placeholder="https://example.com/icon.png"
-          />
-          <p className="mt-1 text-xs text-gray-500">Leave empty to use default logo</p>
+          <div className="flex gap-2">
+            <input
+              type="url"
+              name="icon_url"
+              value={formData.icon_url}
+              onChange={handleChange}
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
+              placeholder="https://example.com/icon.png"
+            />
+            <input
+              type="file"
+              ref={iconInputRef}
+              onChange={(e) => handleImageUpload(e, 'icon')}
+              accept="image/*"
+              className="hidden"
+            />
+            <button
+              type="button"
+              onClick={() => iconInputRef.current?.click()}
+              disabled={uploadingImage === 'icon'}
+              className="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-shusmo transition-colors disabled:opacity-50 flex items-center gap-2"
+              title="Upload icon image"
+            >
+              {uploadingImage === 'icon' ? (
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-shusmo-black"></div>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              )}
+            </button>
+          </div>
+          <p className="mt-1 text-xs text-gray-500">Leave empty to use default logo or upload an image</p>
         </div>
 
         {/* Cover URL */}
@@ -256,15 +341,39 @@ function GameForm({ game, onSave, onCancel }) {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Cover URL
           </label>
-          <input
-            type="url"
-            name="cover_url"
-            value={formData.cover_url}
-            onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
-            placeholder="https://example.com/cover.jpg"
-          />
-          <p className="mt-1 text-xs text-gray-500">Leave empty to use default logo</p>
+          <div className="flex gap-2">
+            <input
+              type="url"
+              name="cover_url"
+              value={formData.cover_url}
+              onChange={handleChange}
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-shusmo focus:ring-2 focus:ring-shusmo-yellow focus:border-transparent"
+              placeholder="https://example.com/cover.jpg"
+            />
+            <input
+              type="file"
+              ref={coverInputRef}
+              onChange={(e) => handleImageUpload(e, 'cover')}
+              accept="image/*"
+              className="hidden"
+            />
+            <button
+              type="button"
+              onClick={() => coverInputRef.current?.click()}
+              disabled={uploadingImage === 'cover'}
+              className="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-shusmo transition-colors disabled:opacity-50 flex items-center gap-2"
+              title="Upload cover image"
+            >
+              {uploadingImage === 'cover' ? (
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-shusmo-black"></div>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              )}
+            </button>
+          </div>
+          <p className="mt-1 text-xs text-gray-500">Leave empty to use default logo or upload an image</p>
         </div>
       </div>
 
@@ -451,7 +560,7 @@ function GameForm({ game, onSave, onCancel }) {
       {/* Screenshots */}
       <div className="border-t pt-6">
         <h3 className="text-lg font-medium text-shusmo-black mb-4">Screenshots</h3>
-        
+
         <div className="flex gap-2 mb-4">
           <input
             type="url"
@@ -466,6 +575,29 @@ function GameForm({ game, onSave, onCancel }) {
             className="px-4 py-3 bg-shusmo-yellow hover:bg-yellow-400 text-shusmo-black font-semibold rounded-shusmo transition-colors"
           >
             Add
+          </button>
+          <span className="text-gray-400">or</span>
+          <input
+            type="file"
+            ref={screenshotInputRef}
+            onChange={(e) => handleImageUpload(e, 'screenshot')}
+            accept="image/*"
+            className="hidden"
+          />
+          <button
+            type="button"
+            onClick={() => screenshotInputRef.current?.click()}
+            disabled={uploadingImage === 'screenshot'}
+            className="px-4 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-shusmo transition-colors disabled:opacity-50 flex items-center gap-2"
+          >
+            {uploadingImage === 'screenshot' ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-shusmo-black"></div>
+            ) : (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            )}
+            Upload
           </button>
         </div>
 
