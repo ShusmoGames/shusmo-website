@@ -52,85 +52,80 @@ function GameDetails() {
   return (
     <div className="bg-white">
       {/* Hero Section - Full Header with Autoplay Background Trailer */}
-      <section className="relative bg-shusmo-black -mt-20">
+      <section className="relative bg-shusmo-black -mt-20 h-[60vh] md:h-[75vh] overflow-hidden">
         {/* Video Section - Full Header Height */}
-        <div className="relative h-[60vh] md:h-[75vh] overflow-hidden">
-          {/* Autoplay Background Video (Muted, Loop) */}
-          {game.trailer_url && game.trailer_url.includes('youtube.com') ? (
-            <div className="w-full h-full">
-              <iframe
-                ref={videoRef}
-                src={`${getYouTubeEmbedUrl(game.trailer_url)}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1`}
-                title="Game Trailer"
+        {game.trailer_url && game.trailer_url.includes('youtube.com') ? (
+          <iframe
+            ref={videoRef}
+            src={`${getYouTubeEmbedUrl(game.trailer_url)}?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&modestbranding=1&enablejsapi=1`}
+            title="Game Trailer"
+            className="absolute inset-0 w-full h-full object-cover"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            poster={game.icon_url}
+          >
+            <source src={game.trailer_url || ''} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        )}
+
+        {/* Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-shusmo-black via-shusmo-black/60 to-shusmo-black/40" />
+
+        {/* Game Title Overlay */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
+          <div className="max-w-4xl flex items-end gap-4 md:gap-6">
+            {/* Game Icon - Minimalist */}
+            <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white rounded-shusmo overflow-hidden shadow-lg">
+              <img
+                src={game.icon_url}
+                alt={game.name}
                 className="w-full h-full object-cover"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
               />
             </div>
-          ) : (
-            <video
-              ref={videoRef}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-full object-cover"
-              poster={game.icon_url}
-            >
-              <source src={game.trailer_url || ''} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          )}
 
-          {/* Gradient Overlays */}
-          <div className="absolute inset-0 bg-gradient-to-t from-shusmo-black via-shusmo-black/60 to-shusmo-black/40" />
-
-          {/* Game Title Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
-            <div className="max-w-4xl flex items-end gap-4 md:gap-6">
-              {/* Game Icon - Minimalist */}
-              <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-white rounded-shusmo overflow-hidden shadow-lg">
-                <img
-                  src={game.icon_url}
-                  alt={game.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Game Info */}
-              <div className="flex-1">
-                <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2">
-                  {game.name}
-                </h1>
-                <p className="text-white/80 text-sm md:text-lg">
-                  {game.short_description}
-                </p>
-              </div>
+            {/* Game Info */}
+            <div className="flex-1">
+              <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-2">
+                {game.name}
+              </h1>
+              <p className="text-white/80 text-sm md:text-lg">
+                {game.short_description}
+              </p>
             </div>
           </div>
-
-          {/* Back Button */}
-          <button
-            onClick={() => navigate(-1)}
-            className="absolute top-6 left-4 md:left-8 flex items-center gap-2 bg-white/90 hover:bg-white px-4 py-2 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-10"
-          >
-            <svg className="w-5 h-5 text-shusmo-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-
-          {/* Watch Trailer Button - Bottom Right */}
-          <button
-            onClick={() => setShowTrailerModal(true)}
-            className="absolute bottom-6 right-4 md:bottom-8 md:right-8 flex items-center gap-2 bg-shusmo-yellow hover:bg-yellow-400 text-shusmo-black font-semibold px-5 py-2.5 md:px-6 md:py-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-10"
-          >
-            <svg className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-            <span className="hidden sm:inline">Watch Trailer</span>
-            <span className="sm:hidden">Trailer</span>
-          </button>
         </div>
+
+        {/* Back Button */}
+        <button
+          onClick={() => navigate(-1)}
+          className="absolute top-6 left-4 md:left-8 flex items-center gap-2 bg-white/90 hover:bg-white px-4 py-2 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-10"
+        >
+          <svg className="w-5 h-5 text-shusmo-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        {/* Watch Trailer Button - Bottom Right */}
+        <button
+          onClick={() => setShowTrailerModal(true)}
+          className="absolute bottom-6 right-4 md:bottom-8 md:right-8 flex items-center gap-2 bg-shusmo-yellow hover:bg-yellow-400 text-shusmo-black font-semibold px-5 py-2.5 md:px-6 md:py-3 rounded-full shadow-lg transition-all duration-200 hover:scale-105 z-10"
+        >
+          <svg className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <span className="hidden sm:inline">Watch Trailer</span>
+          <span className="sm:hidden">Trailer</span>
+        </button>
       </section>
 
       {/* Trailer Modal Popup */}
