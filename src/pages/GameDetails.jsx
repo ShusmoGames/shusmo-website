@@ -36,7 +36,7 @@ function GameDetails() {
   return (
     <div className="bg-white">
       {/* Hero Section - Full Header with Autoplay Background Trailer */}
-      <section className="relative bg-shusmo-black">
+      <section className="relative bg-shusmo-black -mt-20">
         {/* Video Section - Full Header Height */}
         <div className="relative h-[60vh] md:h-[75vh] overflow-hidden">
           {/* Autoplay Background Video (Muted, Loop) */}
