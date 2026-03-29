@@ -8,6 +8,11 @@ function About() {
       <div className="max-w-4xl mx-auto">
         {/* Page Header */}
         <div className="text-center mb-16">
+          <img
+            src="/Logo character.png"
+            alt="Shusmo Character"
+            className="h-32 md:h-48 mx-auto"
+          />
           <h2 className="text-4xl md:text-5xl font-extrabold text-shusmo-black mb-4">
             About Shusmo
           </h2>

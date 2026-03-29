@@ -9,6 +9,15 @@ function HeroSection() {
   return (
     <section className="min-h-[80vh] flex items-center justify-center px-4">
       <div className="text-center max-w-4xl mx-auto">
+        {/* Logo Character */}
+        <div className="mb-8">
+          <img
+            src="/Logo character.png"
+            alt="Shusmo Character"
+            className="h-32 md:h-48 mx-auto"
+          />
+        </div>
+
         {/* Main Heading */}
         <h1 className="text-5xl md:text-7xl font-extrabold text-shusmo-black mb-6 leading-tight">
           We make games that
