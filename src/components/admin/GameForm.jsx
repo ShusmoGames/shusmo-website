@@ -124,7 +124,7 @@ function GameForm({ game, onSave, onCancel }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     // Prepare social_links object (only include non-empty values)
     const socialLinks = Object.fromEntries(
       Object.entries(formData.social_links).filter(([_, value]) => value.trim())
@@ -132,7 +132,9 @@ function GameForm({ game, onSave, onCancel }) {
 
     const gameData = {
       ...formData,
-      social_links: socialLinks
+      social_links: socialLinks,
+      // Ensure published is always a boolean (true or false, never null/undefined)
+      published: !!formData.published
     }
 
     // Store pending save and show confirmation modal
