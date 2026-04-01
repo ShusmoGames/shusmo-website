@@ -1,14 +1,30 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Suspense, lazy } from 'react'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import NavigationBar from './components/NavigationBar'
-import Home from './pages/Home'
-import Games from './pages/Games'
-import About from './pages/About'
-import GameDetails from './pages/GameDetails'
-import AdminPage from './pages/admin/AdminPage'
+
+// Lazy load page components for code splitting
+const Home = lazy(() => import('./pages/Home'))
+const Games = lazy(() => import('./pages/Games'))
+const About = lazy(() => import('./pages/About'))
+const GameDetails = lazy(() => import('./pages/GameDetails'))
+const AdminPage = lazy(() => import('./pages/admin/AdminPage'))
+
+// Loading fallback component
+function PageLoader() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-shusmo-yellow mx-auto"></div>
+        <p className="mt-4 text-gray-600">Loading...</p>
+      </div>
+    </div>
+  )
+}
 
 /**
  * Main App Component
  * Sets up routing and navigation for the Shusmo website
+ * Uses HashRouter for GitHub Pages compatibility
  */
 function App() {
   return (
@@ -16,13 +32,15 @@ function App() {
       <div className="min-h-screen bg-white">
         <NavigationBar />
         <main className="pt-20">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/games" element={<Games />} />
-            <Route path="/games/:slug" element={<GameDetails />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/admin" element={<AdminPage />} />
-          </Routes>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/games" element={<Games />} />
+              <Route path="/games/:slug" element={<GameDetails />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/admin" element={<AdminPage />} />
+            </Routes>
+          </Suspense>
         </main>
       </div>
     </Router>

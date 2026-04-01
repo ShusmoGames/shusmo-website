@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | Shusmo</title>
+  <meta name="description" content="Page not found - Shusmo Games">
+  <link rel="icon" type="image/png" href="/Logo Icon.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #fef3c7 0%, #ffffff 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .container {
+      text-align: center;
+      max-width: 600px;
+    }
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 2rem;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    h1 {
+      font-size: 6rem;
+      font-weight: 800;
+      color: #1A1A1A;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.125rem;
+      color: #666;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    .btn {
+      display: inline-block;
+      background: #FFD700;
+      color: #1A1A1A;
+      font-weight: 600;
+      padding: 1rem 2rem;
+      border-radius: 24px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 14px rgba(255, 215, 0, 0.4);
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+    }
+    .links {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .links a {
+      color: #666;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .links a:hover {
+      color: #FFD700;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="/Logo character.png" alt="Shusmo Character" class="logo">
+    <h1>404</h1>
+    <h2>Oops! Page not found</h2>
+    <p>
+      It looks like you've wandered into uncharted territory. 
+      Don't worry, even our game characters get lost sometimes!
+    </p>
+    <a href="/" class="btn">Back to Home</a>
+    <div class="links">
+      <a href="/games">Browse Games</a>
+      <a href="/about">About Us</a>
+    </div>
+  </div>
+
+  <script>
+    // Redirect to the main app with the correct path for SPA routing
+    var path = window.location.pathname;
+    var hash = window.location.hash;
+    
+    // Only redirect if we're not already on the root
+    if (path !== '/' && path !== '/index.html' && path !== '/404.html') {
+      // Store the intended path in sessionStorage for the app to use
+      sessionStorage.setItem('intendedPath', path);
+      // Redirect to the main app
+      window.location.replace('/#' + path);
+    }
+  </script>
+</body>
+</html>
