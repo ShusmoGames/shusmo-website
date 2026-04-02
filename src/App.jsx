@@ -1,5 +1,5 @@
-import { Suspense, lazy, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { Suspense, lazy, useEffect, useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
 import NavigationBar from './components/NavigationBar'
 
 // Lazy load page components for code splitting
@@ -14,14 +14,26 @@ const AuthCallback = lazy(() => import('./pages/AuthCallback'))
 function RedirectHandler() {
   const navigate = useNavigate()
   const location = useLocation()
+  const [hasChecked, setHasChecked] = useState(false)
 
   useEffect(() => {
-    const intendedPath = sessionStorage.getItem('intendedPath')
-    if (intendedPath && intendedPath !== location.pathname) {
-      sessionStorage.removeItem('intendedPath')
-      navigate(intendedPath, { replace: true })
+    if (!hasChecked) {
+      const intendedPath = sessionStorage.getItem('intendedPath')
+      console.log('RedirectHandler: hasChecked=false, intendedPath=', intendedPath, 'current=', location.pathname)
+      
+      if (intendedPath) {
+        sessionStorage.removeItem('intendedPath')
+        // Only navigate if we're not already on the intended path
+        if (intendedPath !== location.pathname) {
+          console.log('RedirectHandler: Navigating to', intendedPath)
+          navigate(intendedPath, { replace: true })
+        }
+      }
+      setHasChecked(true)
+    } else {
+      console.log('RedirectHandler: Already checked, skipping')
     }
-  }, [navigate, location.pathname])
+  }, [navigate, location.pathname, hasChecked])
 
   return null
 }

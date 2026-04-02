@@ -101,16 +101,22 @@
 
   <script>
     // SPA routing for GitHub Pages
-    // Store the intended path and redirect to home
     var path = window.location.pathname;
     var search = window.location.search;
 
-    // Only redirect if we're not already on the root or a static file
+    console.log('404.html: Current path:', path);
+    console.log('404.html: Search:', search);
+
+    // Only process if we're not already on the root or a static file
     if (path !== '/' && path !== '/index.html' && path !== '/404.html' && path !== '/auth.html' && !path.includes('.')) {
-      // Store the intended path in sessionStorage
+      // Store the intended path
       sessionStorage.setItem('intendedPath', path + search);
-      // Redirect to home - the app will read sessionStorage and navigate
-      window.location.replace('/');
+      console.log('404.html: Stored intendedPath:', path + search);
+      
+      // Redirect to index.html at root
+      window.location.href = '/';
+    } else {
+      console.log('404.html: No redirect needed');
     }
   </script>
 </body>
