@@ -23,6 +23,12 @@ function AdminPage() {
 
   // Check authentication status and domain restriction
   useEffect(() => {
+    // First check if there's a token stored by auth.html
+    const storedToken = localStorage.getItem('sb-xwnyuazmtjryterxuzir-auth-token');
+    if (storedToken) {
+      console.log('AdminPage: Found stored token, refreshing session...');
+    }
+    
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         // Check if user email is @shusmo.io domain

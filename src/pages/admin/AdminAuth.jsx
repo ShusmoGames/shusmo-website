@@ -14,15 +14,14 @@ function AdminAuth({ onLoginSuccess }) {
     setError(null)
 
     try {
-      // Use a path-based redirect URL to avoid hash routing conflicts
-      // Supabase will append auth tokens as query params to this URL
-      const redirectUrl = `${window.location.origin}/auth/callback`
+      // Use a static HTML file for OAuth callback to avoid hash routing conflicts
+      // This file is served directly and can properly handle Supabase OAuth tokens
+      const redirectUrl = `${window.location.origin}/auth.html`
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: redirectUrl,
-          // Only include queryParams if you need refresh tokens
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',

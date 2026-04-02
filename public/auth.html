@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Authenticating... | Shusmo</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background: #f9fafb;
+      }
+      .loading {
+        text-align: center;
+      }
+      .spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid #f3f4f6;
+        border-top-color: #fbbf24;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 16px;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      .text {
+        color: #374151;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading">
+      <div class="spinner"></div>
+      <p class="text">Completing sign in...</p>
+    </div>
+    <script>
+      (async function() {
+        try {
+          // Get the current URL
+          const url = new URL(window.location.href);
+          
+          // Extract tokens from URL (they can be in hash or query params)
+          let hash = url.hash;
+          let search = url.search;
+          
+          console.log('Auth HTML - URL:', window.location.href);
+          console.log('Auth HTML - Hash:', hash);
+          console.log('Auth HTML - Search:', search);
+          
+          // Parse tokens from hash (Supabase OAuth returns tokens in hash)
+          let params = new URLSearchParams();
+          
+          if (hash && hash.startsWith('#')) {
+            // Remove leading # and parse
+            const hashContent = hash.substring(1);
+            params = new URLSearchParams(hashContent);
+          }
+          
+          const accessToken = params.get('access_token');
+          const refreshToken = params.get('refresh_token');
+          const expiresIn = params.get('expires_in');
+          
+          console.log('Auth HTML - Access token present:', !!accessToken);
+          
+          if (accessToken) {
+            // Store tokens in localStorage for the app to pick up
+            const expiresAt = expiresIn ? Math.floor(Date.now() / 1000) + parseInt(expiresIn) : null;
+            
+            const sessionData = {
+              access_token: accessToken,
+              refresh_token: refreshToken || '',
+              expires_at: expiresAt,
+              token_type: 'bearer'
+            };
+            
+            // Store in Supabase-compatible format
+            localStorage.setItem('sb-xwnyuazmtjryterxuzir-auth-token', JSON.stringify(sessionData));
+            
+            console.log('Auth HTML - Session stored');
+            
+            // Redirect to admin page (hash router format)
+            window.location.href = '/#/admin';
+          } else {
+            // No tokens, redirect to admin anyway (app will handle auth state)
+            console.log('Auth HTML - No tokens found');
+            window.location.href = '/#/admin';
+          }
+        } catch (error) {
+          console.error('Auth HTML - Error:', error);
+          // On error, redirect to home
+          window.location.href = '/';
+        }
+      })();
+    </script>
+  </body>
+</html>
