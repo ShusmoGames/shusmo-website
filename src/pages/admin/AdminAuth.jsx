@@ -15,12 +15,14 @@ function AdminAuth({ onLoginSuccess }) {
 
     try {
       // Use hash routing compatible redirect URL
+      // Supabase will append auth tokens to this URL after successful login
       const redirectUrl = `${window.location.origin}/#/admin`
-      
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: redirectUrl,
+          // Only include queryParams if you need refresh tokens
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
