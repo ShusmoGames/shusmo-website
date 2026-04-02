@@ -33,12 +33,15 @@
         color: #374151;
         font-size: 18px;
       }
+      .error {
+        color: #dc2626;
+      }
     </style>
   </head>
   <body>
     <div class="loading">
       <div class="spinner"></div>
-      <p class="text">Completing sign in...</p>
+      <p class="text" id="status">Completing sign in...</p>
     </div>
     <script>
       (async function() {
@@ -70,6 +73,39 @@
           console.log('Auth HTML - Access token present:', !!accessToken);
           
           if (accessToken) {
+            // Decode JWT to get user email
+            // JWT format: header.payload.signature
+            const tokenParts = accessToken.split('.');
+            if (tokenParts.length >= 2) {
+              // Decode the payload (base64url encoded)
+              const payload = tokenParts[1];
+              // Convert base64url to base64
+              const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+              // Decode
+              const decoded = JSON.parse(atob(base64));
+              
+              console.log('Auth HTML - Decoded payload:', decoded);
+              
+              const userEmail = decoded.email || '';
+              console.log('Auth HTML - User email:', userEmail);
+              
+              // Check if email ends with @shusmo.io
+              if (!userEmail.endsWith('@shusmo.io')) {
+                console.log('Auth HTML - Unauthorized domain, redirecting to home');
+                document.getElementById('status').textContent = 'Access denied. Only @shusmo.io emails are allowed.';
+                document.getElementById('status').classList.add('error');
+                
+                // Clear any stored tokens
+                localStorage.removeItem('sb-xwnyuazmtjryterxuzir-auth-token');
+                
+                // Redirect to home after a short delay
+                setTimeout(() => {
+                  window.location.href = '/';
+                }, 2000);
+                return;
+              }
+            }
+            
             // Store tokens in localStorage for the app to pick up
             const expiresAt = expiresIn ? Math.floor(Date.now() / 1000) + parseInt(expiresIn) : null;
             
