@@ -14,9 +14,9 @@ function AdminAuth({ onLoginSuccess }) {
     setError(null)
 
     try {
-      // Use hash routing compatible redirect URL
-      // Supabase will append auth tokens to this URL after successful login
-      const redirectUrl = `${window.location.origin}/#/admin`
+      // Use a path-based redirect URL to avoid hash routing conflicts
+      // Supabase will append auth tokens as query params to this URL
+      const redirectUrl = `${window.location.origin}/auth/callback`
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',

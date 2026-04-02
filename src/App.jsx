@@ -8,6 +8,7 @@ const Games = lazy(() => import('./pages/Games'))
 const About = lazy(() => import('./pages/About'))
 const GameDetails = lazy(() => import('./pages/GameDetails'))
 const AdminPage = lazy(() => import('./pages/admin/AdminPage'))
+const AuthCallback = lazy(() => import('./pages/AuthCallback'))
 
 // Loading fallback component
 function PageLoader() {
@@ -39,6 +40,7 @@ function App() {
               <Route path="/games/:slug" element={<GameDetails />} />
               <Route path="/about" element={<About />} />
               <Route path="/admin" element={<AdminPage />} />
+              <Route path="/auth/callback" element={<AuthCallback />} />
             </Routes>
           </Suspense>
         </main>
