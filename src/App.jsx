@@ -38,6 +38,23 @@ function RedirectHandler() {
   return null
 }
 
+// 404 Page Component - redirects to home
+function NotFoundRedirect() {
+  useEffect(() => {
+    console.log('NotFoundRedirect: Unknown path, redirecting to home')
+    window.location.href = '/'
+  }, [])
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-shusmo-yellow mx-auto"></div>
+        <p className="mt-4 text-gray-600">Redirecting to home...</p>
+      </div>
+    </div>
+  )
+}
+
 // Loading fallback component
 function PageLoader() {
   return (
@@ -70,6 +87,8 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
+              {/* Catch-all route for unknown paths - redirects to home */}
+              <Route path="*" element={<NotFoundRedirect />} />
             </Routes>
           </Suspense>
         </main>
