@@ -91,7 +91,7 @@ function AuthCallback() {
           // Clean up the URL and redirect to admin
           console.log('AuthCallback: User authorized, redirecting to admin')
           // Remove any remaining hash params and do a clean redirect
-          window.location.href = '/#/admin'
+          window.location.href = '/admin'
         } else {
           // No session, redirect to admin
           console.log('AuthCallback: No session, redirecting to admin')

@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react'
-import { HashRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import NavigationBar from './components/NavigationBar'
 
 // Lazy load page components for code splitting

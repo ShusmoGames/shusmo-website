@@ -121,12 +121,12 @@
             
             console.log('Auth HTML - Session stored');
             
-            // Redirect to admin page (hash router format)
-            window.location.href = '/#/admin';
+            // Redirect to admin page (clean URL, no hash)
+            window.location.href = '/admin';
           } else {
             // No tokens, redirect to admin anyway (app will handle auth state)
             console.log('Auth HTML - No tokens found');
-            window.location.href = '/#/admin';
+            window.location.href = '/admin';
           }
         } catch (error) {
           console.error('Auth HTML - Error:', error);
