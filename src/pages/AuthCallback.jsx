@@ -14,29 +14,45 @@ function AuthCallback() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
+        console.log('AuthCallback: Starting session handling...')
+        console.log('AuthCallback: Current URL:', window.location.href)
+        
         // Supabase JS client automatically handles the OAuth callback
-        // when there are auth parameters in the URL
+        // when there are auth parameters in the URL (hash or query params)
         const { data: { session }, error: sessionError } = await supabase.auth.getSession()
 
-        if (sessionError) throw sessionError
+        if (sessionError) {
+          console.error('AuthCallback: Session error:', sessionError)
+          throw sessionError
+        }
 
+        console.log('AuthCallback: Session obtained:', session ? 'YES' : 'NO')
+        
         if (session) {
+          console.log('AuthCallback: User email:', session.user?.email)
+          
           // Check if user email is @shusmo.io domain
           const userEmail = session.user?.email || ''
           if (!userEmail.endsWith('@shusmo.io')) {
+            console.log('AuthCallback: User not authorized, redirecting to home')
             await supabase.auth.signOut()
             navigate('/')
             return
           }
 
-          // Redirect to admin page with clean URL (no hash conflicts)
-          navigate('/admin', { replace: true })
+          // Force a page reload to ensure session is properly persisted
+          // Then navigate to admin
+          console.log('AuthCallback: User authorized, reloading page')
+          await supabase.auth.refreshSession()
+          // Use window.location for a clean reload that preserves the session
+          window.location.href = '/#/admin'
         } else {
           // No session, redirect to admin (auth state will be handled by AdminPage)
+          console.log('AuthCallback: No session, redirecting to admin')
           navigate('/admin', { replace: true })
         }
       } catch (err) {
-        console.error('Error handling auth callback:', err)
+        console.error('AuthCallback: Error handling auth callback:', err)
         setError('Authentication failed. Please try again.')
         // Redirect to admin after a short delay
         setTimeout(() => navigate('/admin', { replace: true }), 2000)
