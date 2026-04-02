@@ -104,17 +104,17 @@
   </div>
 
   <script>
-    // Redirect to the main app with the correct path for SPA routing
-    // This enables client-side routing on GitHub Pages
+    // SPA routing for GitHub Pages
+    // Store the intended path and redirect to home
     var path = window.location.pathname;
     var search = window.location.search;
-    var hash = window.location.hash;
 
     // Only redirect if we're not already on the root or a static file
     if (path !== '/' && path !== '/index.html' && path !== '/404.html' && path !== '/auth.html' && !path.includes('.')) {
-      // Redirect to index.html with the path preserved for React Router
-      // React Router will handle the routing client-side
-      window.location.replace('/index.html' + path + search + hash);
+      // Store the intended path in sessionStorage
+      sessionStorage.setItem('intendedPath', path + search);
+      // Redirect to home - the app will read sessionStorage and navigate
+      window.location.replace('/');
     }
   </script>
 </body>
