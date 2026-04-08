@@ -7,6 +7,7 @@ const Home = lazy(() => import('./pages/Home'))
 const Games = lazy(() => import('./pages/Games'))
 const About = lazy(() => import('./pages/About'))
 const GameDetails = lazy(() => import('./pages/GameDetails'))
+const PageDetails = lazy(() => import('./pages/PageDetails'))
 const AdminPage = lazy(() => import('./pages/admin/AdminPage'))
 const AuthCallback = lazy(() => import('./pages/AuthCallback'))
 
@@ -84,6 +85,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/games" element={<Games />} />
               <Route path="/games/:slug" element={<GameDetails />} />
+              <Route path="/pages/:slug" element={<PageDetails />} />
               <Route path="/about" element={<About />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
