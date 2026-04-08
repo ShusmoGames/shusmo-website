@@ -3,6 +3,10 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useGame } from '../hooks/useGames'
 import ScreenshotsCarousel from '../components/ScreenshotsCarousel'
 import SocialLinks from '../components/SocialLinks'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
 
 /**
  * GameDetails Page
@@ -282,12 +286,112 @@ function GameDetails() {
 
               {/* Game Description Section */}
               <section className="card p-6 md:p-8">
-                <h2 className="text-2xl font-bold text-shusmo-black mb-4">About the Game</h2>
+                <h2 className="text-2xl font-bold text-shusmo-black mb-6">About the Game</h2>
                 {game.full_description?.trim() ? (
-                  <div className="text-gray-600 leading-relaxed space-y-4">
-                    {game.full_description.split('\n').filter(line => line.trim()).map((paragraph, index) => (
-                      <p key={index}>{paragraph}</p>
-                    ))}
+                  <div className="
+                    prose prose-lg max-w-none
+                    prose-headings:text-shusmo-black prose-headings:font-bold prose-headings:mt-8 prose-headings:first:mt-0
+                    prose-h1:text-3xl md:prose-h1:text-4xl prose-h1:mb-4 prose-h1:pb-3 prose-h1:border-b-2 prose-h1:border-shusmo-yellow/20
+                    prose-h2:text-2xl md:prose-h2:text-3xl prose-h2:mb-3
+                    prose-h3:text-xl md:prose-h3:text-2xl prose-h3:mb-2
+                    prose-p:my-4 prose-p:leading-relaxed prose-p:first:mt-0 prose-p:last:mb-0
+                    prose-a:text-shusmo-yellow prose-a:no-underline hover:prose-a:underline prose-a:font-medium
+                    prose-strong:text-shusmo-black prose-strong:font-semibold
+                    prose-code:bg-gray-100 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:font-mono
+                    prose-pre:bg-shusmo-black prose-pre:text-white prose-pre:rounded-shusmo prose-pre:shadow-lg prose-pre:my-6
+                    prose-blockquote:border-l-4 prose-blockquote:border-shusmo-yellow prose-blockquote:bg-gray-50 prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:rounded-r-shusmo prose-blockquote:italic prose-blockquote:my-6
+                    prose-ul:my-4 prose-ul:list-disc prose-ul:marker:text-shusmo-yellow prose-li:my-2
+                    prose-ol:my-4 prose-ol:list-decimal prose-ol:marker:text-shusmo-yellow prose-li:my-2
+                    prose-hr:border-gray-200 prose-hr:my-8
+                    prose-img:rounded-shusmo prose-img:shadow-md prose-img:max-w-full prose-img:h-auto prose-img:my-6
+                  ">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeRaw, rehypeSanitize]}
+                      components={{
+                        p: ({ node, ...props }) => (
+                          <p className="my-4 leading-relaxed first:mt-0 last:mb-0" {...props} />
+                        ),
+                        a: ({ node, ...props }) => {
+                          const href = props.href || ''
+                          const isExternal = href.startsWith('http') || href.startsWith('//')
+                          
+                          return (
+                            <a
+                              {...props}
+                              className="text-shusmo-yellow hover:underline font-medium transition-colors"
+                              target={isExternal ? '_blank' : undefined}
+                              rel={isExternal ? 'noopener noreferrer' : undefined}
+                            />
+                          )
+                        },
+                        code: ({ node, inline, className, children, ...props }) => {
+                          const match = /language-(\w+)/.exec(className || '')
+                          const hasLanguage = match && !inline
+                          
+                          if (hasLanguage) {
+                            return (
+                              <div className="my-6 rounded-shusmo overflow-hidden shadow-lg">
+                                <div className="bg-gray-800 px-4 py-2 flex items-center justify-between">
+                                  <span className="text-gray-300 text-xs font-mono">{match[1]}</span>
+                                  <button
+                                    onClick={() => navigator.clipboard?.writeText(String(children))}
+                                    className="text-gray-400 hover:text-white transition-colors text-xs"
+                                    title="Copy code"
+                                  >
+                                    Copy
+                                  </button>
+                                </div>
+                                <pre className="bg-shusmo-black text-white p-4 overflow-x-auto m-0">
+                                  <code className={className} {...props}>
+                                    {children}
+                                  </code>
+                                </pre>
+                              </div>
+                            )
+                          }
+                          
+                          return (
+                            <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono text-shusmo-black" {...props}>
+                              {children}
+                            </code>
+                          )
+                        },
+                        img: ({ node, ...props }) => (
+                          <img
+                            {...props}
+                            className="rounded-shusmo shadow-md max-w-full h-auto mx-auto"
+                            loading="lazy"
+                            alt={props.alt || 'Image'}
+                          />
+                        ),
+                        table: ({ node, ...props }) => (
+                          <div className="overflow-x-auto my-6 rounded-shusmo shadow-md border border-gray-200">
+                            <table className="w-full border-collapse" {...props} />
+                          </div>
+                        ),
+                        th: ({ node, ...props }) => (
+                          <th className="bg-shusmo-black text-white px-4 py-3 text-left font-semibold border-b-2" {...props} />
+                        ),
+                        td: ({ node, ...props }) => (
+                          <td className="px-4 py-3 border-b border-gray-200" {...props} />
+                        ),
+                        tr: ({ node, ...props }) => (
+                          <tr className="hover:bg-gray-50 transition-colors even:bg-gray-50/50" {...props} />
+                        ),
+                        blockquote: ({ node, ...props }) => (
+                          <blockquote className="border-l-4 border-shusmo-yellow bg-gray-50 px-6 py-4 rounded-r-shusmo italic text-gray-700 my-6" {...props} />
+                        ),
+                        hr: ({ node, ...props }) => (
+                          <hr className="my-8 border-gray-200" {...props} />
+                        ),
+                        li: ({ node, ...props }) => (
+                          <li className="my-2 leading-relaxed" {...props} />
+                        ),
+                      }}
+                    >
+                      {game.full_description}
+                    </ReactMarkdown>
                   </div>
                 ) : (
                   <p className="text-gray-400 italic">No description available.</p>
