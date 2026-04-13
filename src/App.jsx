@@ -10,7 +10,6 @@ const GameDetails = lazy(() => import('./pages/GameDetails'))
 const PageDetails = lazy(() => import('./pages/PageDetails'))
 const AdminPage = lazy(() => import('./pages/admin/AdminPage'))
 const AuthCallback = lazy(() => import('./pages/AuthCallback'))
-const Privacy = lazy(() => import('./pages/Privacy'))
 
 // Component to handle redirect from 404.html
 function RedirectHandler() {
@@ -88,7 +87,6 @@ function App() {
               <Route path="/games/:slug" element={<GameDetails />} />
               <Route path="/pages/:slug" element={<PageDetails />} />
               <Route path="/about" element={<About />} />
-              <Route path="/privacy" element={<Privacy />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               {/* Catch-all route for unknown paths - redirects to home */}
