@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shusmo Games | ShuHub — Internal Analytics Platform</title>
+    <meta name="description"
+        content="ShuHub is Shusmo Games' internal analytics and P&amp;L platform. It consolidates revenue and advertising cost from our own store, mediation and ad-network accounts into one reporting view." />
+    <meta name="robots" content="index, follow">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #222;
+        }
+        h1, h2, h3 { margin-top: 30px; }
+        hr { margin: 30px 0; }
+        ul { padding-left: 20px; }
+        a { color: #007BFF; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; vertical-align: top; }
+        th { background: #f6f6f6; }
+        code { background: #f4f4f4; padding: 1px 5px; border-radius: 3px; }
+        .footer { margin-top: 40px; color: #555; }
+    </style>
+</head>
+<body>
+
+    <h1>ShuHub — Internal Analytics Platform</h1>
+    <p><strong>Shusmo Games</strong></p>
+
+    <p>
+        Shusmo Games is a mobile game studio. We develop and publish our own casual and
+        idle titles for iOS and Android, including <em>Idle Block Miner</em>, <em>3D48</em>
+        and <em>Baby Seat: Driving Sim</em>. Our games are free to play and are funded by
+        in-app purchases and in-app advertising.
+    </p>
+
+    <h2>Our business model</h2>
+    <p>
+        We earn revenue in two ways, and we spend money to acquire players:
+    </p>
+    <ul>
+        <li><strong>In-app purchases</strong> — players buy items and remove ads. Payments are
+            processed by the Apple App Store and Google Play.</li>
+        <li><strong>In-app advertising</strong> — we show ads inside our own games and are paid
+            by ad networks and mediation platforms.</li>
+        <li><strong>User acquisition</strong> — we buy advertising on ad platforms to bring new
+            players to our games. This is our largest cost.</li>
+    </ul>
+    <p>
+        Whether a title is profitable depends entirely on comparing what a player earns us
+        against what it cost to acquire that player. Those two numbers arrive from different
+        companies, in different currencies, on different reporting calendars.
+    </p>
+
+    <h2>What ShuHub is</h2>
+    <p>
+        ShuHub is our internal analytics and profit-and-loss platform, built and operated by
+        Shusmo Games for Shusmo Games. It is a private, login-protected web application used
+        by our own small team. It is not a product we sell, resell, or make available to
+        other companies, and it does not manage advertising on anyone else's behalf.
+    </p>
+    <p>
+        ShuHub reads our own reporting data from each platform we use, converts it to a single
+        currency, and presents revenue, advertising cost and return on ad spend side by side
+        so we can decide which titles and which campaigns to keep funding.
+    </p>
+
+    <h2>Data sources ShuHub reads</h2>
+    <table>
+        <tr><th>Source</th><th>What we read</th><th>Why</th></tr>
+        <tr><td>Apple App Store Connect</td><td>Sales and proceeds reports</td><td>In-app purchase revenue</td></tr>
+        <tr><td>Google Play</td><td>Sales and earnings reports</td><td>In-app purchase revenue</td></tr>
+        <tr><td>RevenueCat</td><td>Purchase and proceeds data</td><td>In-app purchase revenue</td></tr>
+        <tr><td>Google AdMob</td><td>Estimated earnings</td><td>In-app advertising revenue</td></tr>
+        <tr><td>AppLovin MAX</td><td>Estimated revenue</td><td>In-app advertising revenue</td></tr>
+        <tr><td>Google Ads</td><td>Campaign cost, impressions, clicks</td><td>User-acquisition cost</td></tr>
+        <tr><td>Meta Ads</td><td>Campaign spend</td><td>User-acquisition cost</td></tr>
+    </table>
+
+    <h2>How we use the Google Ads API</h2>
+    <p>
+        We use the Google Ads API for one purpose: to read the daily cost of our own
+        user-acquisition campaigns into ShuHub, so that advertising spend can be compared
+        against the revenue those players generate.
+    </p>
+    <ul>
+        <li><strong>Our own account only.</strong> We query the Google Ads account that Shusmo
+            Games owns and funds. We do not access, manage, or report on any third party's
+            advertising account, and we do not act as an agency or a reseller.</li>
+        <li><strong>Read-only.</strong> ShuHub issues reporting queries only. It never creates,
+            edits, pauses or removes campaigns, budgets, bids, audiences or creatives. There is
+            no write path to any advertising platform anywhere in the system, and this is
+            enforced as an architectural rule in our codebase.</li>
+        <li><strong>Which calls we make.</strong> Reporting queries against
+            <code>GoogleAdsService.SearchStream</code>. One query retrieves daily campaign cost,
+            impressions, clicks and conversions; a second reads the account's currency and
+            reporting time zone so figures can be converted correctly.</li>
+        <li><strong>Frequency.</strong> A scheduled pull a few times a day, one day of data at
+            a time, plus occasional backfills when we add a new report.</li>
+        <li><strong>Who sees it.</strong> Only Shusmo Games staff, through a login-protected
+            internal dashboard. The data is not published, resold, or shared onward.</li>
+    </ul>
+    <p>
+        If any budget guidance is ever shown in ShuHub, it is advisory text for our own team to
+        read and act on manually inside Google Ads. Nothing is ever written back automatically.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+        Shusmo Games — <a href="mailto:omar@shusmo.io">omar@shusmo.io</a><br />
+        <a href="https://shusmo.io/">shusmo.io</a> ·
+        <a href="https://shusmo.io/privacy.html">Privacy Policy</a>
+    </p>
+
+    <hr />
+    <p class="footer">© Shusmo Games. ShuHub is an internal tool and is not offered to third parties.</p>
+
+</body>
+</html>
