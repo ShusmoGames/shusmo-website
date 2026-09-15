@@ -7,12 +7,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependencies — restored by `npm ci` from package-lock.json
+node_modules/
+.npm
+.pnpm-store/
+
+# Build output — produced by the Pages workflow, never committed
+dist/
+dist-ssr/
 *.local
 
-# Environment variables
+# Environment variables — never commit these to a public repo
 .env
 .env.local
 .env.*.local
@@ -21,9 +26,16 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Local scratch
+*.bak
+*.orig
