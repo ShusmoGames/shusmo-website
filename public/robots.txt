@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Admin UI and the auth callback are not content. Blocking them here only
+# keeps them out of search results -- access is enforced by Supabase auth,
+# which requires an @shusmo.io account.
+Disallow: /admin
+Disallow: /auth/
+Disallow: /auth.html
+
+Sitemap: https://shusmo.io/sitemap.xml

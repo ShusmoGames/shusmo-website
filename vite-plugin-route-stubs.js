@@ -70,7 +70,11 @@ export default function routeStubs() {
         await writeFile(file, render(shell, route), 'utf8')
       }
 
-      this.info?.(`route-stubs: wrote ${routes.length} route stubs`)
+      await writeFile(join(outDir, 'sitemap.xml'), sitemap(routes), 'utf8')
+
+      this.info?.(
+        `route-stubs: wrote ${routes.length} route stubs + sitemap.xml`,
+      )
     },
   }
 }
@@ -100,9 +104,20 @@ async function fetchGames(ctx) {
   }
 }
 
+/**
+ * The canonical URL of a stub carries a trailing slash, because that is what
+ * Pages actually serves: a request for /games is 301'd to /games/, which is
+ * where dist/games/index.html lives. Pointing canonical at the redirecting
+ * form would make every page's declared URL disagree with the one that
+ * answers 200.
+ */
+function canonicalUrl(path) {
+  return `${SITE}/${path}/`
+}
+
 /** Rewrites the shell's head for one route. Body and script tags are untouched. */
 function render(shell, route) {
-  const url = `${SITE}/${route.path}`
+  const url = canonicalUrl(route.path)
   const image = absolute(route.image) || `${SITE}/logo.png`
   const title = esc(route.title)
   const description = esc(route.description)
@@ -147,6 +162,43 @@ function firstSentence(text) {
   if (!value) return undefined
   const clipped = value.length > 200 ? `${value.slice(0, 197).trimEnd()}...` : value
   return clipped.replace(/\s+/g, ' ')
+}
+
+/**
+ * A crawlable route nothing links to is still invisible, so the plugin also
+ * publishes the list it just generated. Only URLs that answer 200 belong here:
+ * the stub routes, the home page, and the hand-written static pages. /admin
+ * never gets a stub and so never appears, which is what we want.
+ */
+function sitemap(routes) {
+  const lastmod = new Date().toISOString().slice(0, 10)
+  const entries = [
+    { loc: `${SITE}/`, priority: '1.0' },
+    ...routes.map((route) => ({
+      loc: canonicalUrl(route.path),
+      priority: route.path.includes('/') ? '0.8' : '0.9',
+    })),
+    { loc: `${SITE}/privacy.html`, priority: '0.3' },
+    { loc: `${SITE}/platform.html`, priority: '0.3' },
+  ]
+
+  const urls = entries
+    .map(
+      ({ loc, priority }) =>
+        `  <url>\n` +
+        `    <loc>${esc(loc)}</loc>\n` +
+        `    <lastmod>${lastmod}</lastmod>\n` +
+        `    <priority>${priority}</priority>\n` +
+        `  </url>`,
+    )
+    .join('\n')
+
+  return (
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    `${urls}\n` +
+    '</urlset>\n'
+  )
 }
 
 function esc(text) {
