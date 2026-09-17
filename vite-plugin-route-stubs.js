@@ -179,6 +179,7 @@ function sitemap(routes) {
       priority: route.path.includes('/') ? '0.8' : '0.9',
     })),
     { loc: `${SITE}/privacy.html`, priority: '0.3' },
+    { loc: `${SITE}/terms.html`, priority: '0.3' },
     { loc: `${SITE}/platform.html`, priority: '0.3' },
   ]
 
