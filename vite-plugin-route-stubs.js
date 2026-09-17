@@ -145,6 +145,7 @@ function render(shell, route) {
       )
       .replace(/(<meta property="twitter:image" content=)"[^"]*"/, `$1"${image}"`)
       // Tell search engines which URL is canonical for this route.
+      .replace(/<link rel="canonical"[^>]*>\s*/g, '')
       .replace('</head>', `  <link rel="canonical" href="${url}">\n</head>`)
   )
 }
